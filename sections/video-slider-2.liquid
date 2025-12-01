@@ -1,0 +1,1155 @@
+{% comment %}
+  Video Section:
+  - Displays a heading and subheading (with customizable colors).
+  - Each video block accepts a YouTube URL and an optional cover image.
+  - The container uses a portrait (9:16) aspect ratio.
+  - When the thumbnail is clicked, it is replaced by an autoplaying video embed.
+  - Desktop: Shows a 4-column grid.
+  - Mobile: Initializes a Slick slider with custom circular arrows and dot navigation.
+  - The play button now uses your ripple effect.
+{% endcomment %}
+
+<section class="video-section" id="video-section" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="video-section__header">
+    {% if section.settings.heading %}
+      <h2 style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_font_size }}px;">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.subheading %}
+      <p style="color: {{ section.settings.subheading_color }}; font-size: {{ section.settings.subheading_font_size }}px;">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="video-section__videos">
+  {% for block in section.blocks %}
+    {% if block.settings.youtube_video != blank %}
+      {% assign video_id = block.settings.youtube_video | split: 'v=' | last | split: '&' | first %}
+      <div class="video-block" data-video-id="{{ video_id }}">
+        {% if block.settings.cover_image != blank %}
+          <div class="video-thumbnail" style="background-image: url('{{ block.settings.cover_image | img_url: 'master' }}');">
+            <div class="play-icon video-wrapper__play-button--ripple">&#9658;</div>
+          </div>
+        {% else %}
+          <div class="video-responsive">
+            <iframe
+              src="https://www.youtube.com/embed/{{ video_id }}?rel=0&amp;enablejsapi=1"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+</section>
+
+<style>
+  /* Define the play button background variable (RGB format) */
+  :root {
+    --play-button-background: 252, 250, 248; /* Adjust as needed */
+  }
+
+  /* Section container */
+  .video-section {
+    padding: 50px;
+  }
+  .video-section__header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Desktop grid view (screens 1025px and above) with a reduced gap */
+  @media screen and (min-width: 1025px) {
+    .video-section__videos {
+      display: flex;
+      /* grid-template-columns: repeat(4, 1fr); */
+      gap: 20px;
+      justify-content: center;
+    }
+  }
+  .video-block {
+    width: 253px !important;
+    height: 450px !important;
+    position: relative;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  /* Portrait thumbnail with fixed dimensions */
+  .video-thumbnail {
+    max-width: 253px !important;
+    position: relative;
+    width: 100%;
+    padding-top: 178.5%; /* roughly a 450px height when width is 253px */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  
+  /* Play icon styling */
+  .video-thumbnail .play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34px;
+    color: #4a4a4a;
+    background: #fcfaf8e6;;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Ripple animation keyframes (using your provided code) */
+  @keyframes playButtonRipple {
+    0% {
+      box-shadow: 0 0 0 0 rgb(var(--play-button-background)), 0 0 0 0 rgb(var(--play-button-background));
+    }
+    100% {
+      box-shadow: 0 0 0 9px rgba(var(--play-button-background), 0), 0 0 0 18px rgba(var(--play-button-background), 0);
+    }
+  }
+  .video-wrapper__play-button--ripple {
+    animation: playButtonRipple 1400ms ease-in-out infinite;
+  }
+
+  /* Responsive video embed container */
+  .video-responsive {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 177.78%;
+  }
+  .video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Mobile view (smartphones: max-width 768px) - using slick slider */
+  @media screen and (max-width: 768px) {
+    .video-section__videos {
+      display: block;
+      width: 253px !important;
+      margin: 0 auto;
+    }
+    .video-block {
+      margin-bottom: 20px;
+    }
+    .custom-arrow {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .slick-prev { left: 5%; }
+    .slick-next { right: 5%; }
+    .slick-dots {
+      position: absolute;
+      bottom: -30px !important;
+      width: 100%;
+      text-align: center;
+    }
+    .slick-dots li button:before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #009688;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .slick-prev:before {
+      position: relative;
+      bottom: 16px;
+      right: 20px;
+    }
+    .slick-next:before {
+      position: relative;
+      bottom: 16px;
+      left: 28px;
+    }
+    .slick-prev:before, .slick-next:before {
+      font-size: 35px !important;
+      color: #005461 !important;
+    }
+    .slick-dots li.slick-active button:before {
+      background: #009688;
+    }
+    h2{
+      font-size: 27px !important;
+    }
+  }
+
+  /* Tablet view (min-width: 769px and max-width: 1024px): Horizontal scroll with increased gap */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .video-section__videos {
+      display: flex;
+      gap: 20px; /* Increased gap for tablets */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      /* Allow extra space so that if only 3 items fit, you can scroll for more */
+      padding-bottom: 10px;
+    }
+    .video-block {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  }
+  @media screen and (min-width: 1400px){
+    .video-section__videos {
+      gap: 13vh;
+    }
+  }
+</style>
+
+<script src="https://www.youtube.com/iframe_api" defer></script>
+
+<script>
+  // keep track of every YT.Player instance
+  var ytPlayers = [];
+
+  // called by the IFrame API when it's ready
+  function onYouTubeIframeAPIReady() {
+    // wrap every existing .video-responsive iframe
+    document.querySelectorAll('.video-responsive iframe').forEach(registerIframe);
+  }
+
+  // register one iframe with YT.Player, keep it in the array
+  function registerIframe(iframe) {
+    var player = new YT.Player(iframe, {
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
+    });
+    ytPlayers.push(player);
+  }
+
+  // whenever any player starts playing, pause all the rest
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+      ytPlayers.forEach(function(p) {
+        if (p !== event.target) {
+          p.pauseVideo();
+        }
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // helper to pause via postMessage (used before replacing a thumbnail)
+    function pauseAllVideosQuick() {
+      document.querySelectorAll('.video-responsive iframe').forEach(function(iframe) {
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+          '*'
+        );
+      });
+    }
+
+    // thumbnail click: pause others, inject iframe + enablejsapi, register it
+    document.querySelectorAll('.video-thumbnail').forEach(function(thumbnail) {
+      thumbnail.addEventListener('click', function() {
+        pauseAllVideosQuick();
+
+        var block = thumbnail.closest('.video-block');
+        var id    = block.getAttribute('data-video-id');
+        block.innerHTML = ''
+          + '<div class="video-responsive">'
+          +   '<iframe src="https://www.youtube.com/embed/' + id
+          +     '?autoplay=1&amp;rel=0&amp;enablejsapi=1" '
+          +     'frameborder="0" '
+          +     'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" '
+          +     'allowfullscreen></iframe>'
+          + '</div>';
+
+        // grab the newly injected iframe and register it
+        var newIframe = block.querySelector('iframe');
+        registerIframe(newIframe);
+      });
+    });
+  // Initialize or destroy the slick slider based on viewport width.
+  function initSlider() {
+    if(window.innerWidth <= 768) {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && !jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick({
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+          adaptiveHeight: true,
+          prevArrow: '<button type="button" class="slick-prev custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>',
+          nextArrow: '<button type="button" class="slick-next custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>'
+        });
+      }
+    } else {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick('unslick');
+      }
+    }
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    initSlider();
+  });
+  
+  // Also listen for Shopify's section load event to cover when the section is added to product pages dynamically.
+  document.addEventListener("shopify:section:load", function(event) {
+    initSlider();
+  });
+  // Initialize slider on load and on resize.
+  initSlider();
+  window.addEventListener("resize", initSlider);
+});
+</script>
+{% comment %}
+Autoplayoff
+<section class="video-section" id="video-section" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="video-section__header">
+    {% if section.settings.heading %}
+      <h2 style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_font_size }}px;">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.subheading %}
+      <p style="color: {{ section.settings.subheading_color }}; font-size: {{ section.settings.subheading_font_size }}px;">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="video-section__videos">
+    {% for block in section.blocks %}
+      {% if block.settings.youtube_video != blank %}
+        {% assign video_id = block.settings.youtube_video | split: 'v=' | last | split: '&' | first %}
+        <div class="video-block" data-video-id="{{ video_id }}">
+          {% if block.settings.cover_image != blank %}
+            <!-- Show clickable thumbnail if cover image is provided -->
+            <div class="video-thumbnail" style="background-image: url('{{ block.settings.cover_image | img_url: 'master' }}');">
+              <div class="play-icon video-wrapper__play-button--ripple">&#9658;</div>
+            </div>
+          {% else %}
+            <!-- When no cover image, load the video embed without autoplay -->
+            <div class="video-responsive">
+              <iframe src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&amp;rel=0" 
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+              </iframe>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  /* Define the play button background variable (RGB format) */
+  :root {
+    --play-button-background: 252, 250, 248; /* Adjust as needed */
+  }
+
+  /* Section container */
+  .video-section {
+    padding: 50px;
+  }
+  .video-section__header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Desktop grid view (screens 1025px and above) with a reduced gap */
+  @media screen and (min-width: 1025px) {
+    .video-section__videos {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+  }
+  .video-block {
+    width: 253px !important;
+    height: 450px !important;
+    position: relative;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  /* Portrait thumbnail with fixed dimensions */
+  .video-thumbnail {
+    max-width: 253px !important;
+    position: relative;
+    width: 100%;
+    padding-top: 178.5%; /* roughly a 450px height when width is 253px */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  
+  /* Play icon styling */
+  .video-thumbnail .play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34px;
+    color: #4a4a4a;
+    background: #fcfaf8e6;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Ripple animation keyframes */
+  @keyframes playButtonRipple {
+    0% {
+      box-shadow: 0 0 0 0 rgb(var(--play-button-background)), 0 0 0 0 rgb(var(--play-button-background));
+    }
+    100% {
+      box-shadow: 0 0 0 9px rgba(var(--play-button-background), 0), 0 0 0 18px rgba(var(--play-button-background), 0);
+    }
+  }
+  .video-wrapper__play-button--ripple {
+    animation: playButtonRipple 1400ms ease-in-out infinite;
+  }
+
+  /* Responsive video embed container */
+  .video-responsive {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 177.78%;
+  }
+  .video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Mobile view (smartphones: max-width 768px) - using slick slider */
+  @media screen and (max-width: 768px) {
+    .video-section__videos {
+      display: block;
+      width: 253px !important;
+      margin: 0 auto;
+    }
+    .video-block {
+      margin-bottom: 20px;
+    }
+    .custom-arrow {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .slick-prev { left: 5%; }
+    .slick-next { right: 5%; }
+    .slick-dots {
+      position: absolute;
+      bottom: -30px !important;
+      width: 100%;
+      text-align: center;
+    }
+    .slick-dots li button:before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #009688;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .slick-prev:before {
+      position: relative;
+      bottom: 16px;
+      right: 20px;
+    }
+    .slick-next:before {
+      position: relative;
+      bottom: 16px;
+      left: 28px;
+    }
+    .slick-prev:before, .slick-next:before {
+      font-size: 35px !important;
+      color: #005461 !important;
+    }
+    .slick-dots li.slick-active button:before {
+      background: #009688;
+    }
+  }
+
+  /* Tablet view (min-width: 769px and max-width: 1024px) */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .video-section__videos {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+    }
+    .video-block {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // When a thumbnail is clicked, do two things:
+  // 1. Pause any video that's already playing
+  // 2. Replace the thumbnail with the clicked video embed (which autoplays on click)
+  document.querySelectorAll('.video-thumbnail').forEach(function(thumbnail) {
+    thumbnail.addEventListener('click', function() {
+      var parentBlock = thumbnail.closest('.video-block');
+      var videoId = parentBlock.getAttribute('data-video-id');
+      
+      // Pause all other videos on the page by sending a "pauseVideo" command to all YouTube iframes
+      document.querySelectorAll('.video-responsive iframe').forEach(function(iframe) {
+        // Only pause if the iframe is not within the clicked block
+        if (!parentBlock.contains(iframe)) {
+          // Post a message to pause the video (requires enablejsapi=1 in the iframe URL)
+          iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+      });
+      
+      // Replace the thumbnail with the video embed which auto-plays upon user click.
+      // (Note: We add enablejsapi=1 for API control and autoplay=1 since the click is user-driven.)
+      var embedHTML = '<div class="video-responsive">' +
+                        '<iframe src="https://www.youtube.com/embed/' + videoId + '?enablejsapi=1&amp;autoplay=1&amp;rel=0" ' +
+                        'frameborder="0" ' +
+                        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+                        'allowfullscreen></iframe></div>';
+      parentBlock.innerHTML = embedHTML;
+    });
+  });
+
+  // Initialize or destroy the slick slider based on viewport width.
+  function initSlider() {
+    if(window.innerWidth <= 768) {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && !jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick({
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+          adaptiveHeight: true,
+          prevArrow: '<button type="button" class="slick-prev custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>',
+          nextArrow: '<button type="button" class="slick-next custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>'
+        });
+      }
+    } else {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick('unslick');
+      }
+    }
+  }
+  
+  // Call the slider initialization on document load and on Shopify section load, as well as on window resize.
+  initSlider();
+  window.addEventListener("resize", initSlider);
+  document.addEventListener("shopify:section:load", function() {
+    initSlider();
+  });
+});
+</script>
+{% endcomment %}
+{% comment %}
+
+Correct code
+<section class="video-section" id="video-section" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="video-section__header">
+    {% if section.settings.heading %}
+      <h2 style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_font_size }}px;">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.subheading %}
+      <p style="color: {{ section.settings.subheading_color }}; font-size: {{ section.settings.subheading_font_size }}px;">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="video-section__videos">
+    {% for block in section.blocks %}
+      {% if block.settings.youtube_video != blank %}
+        {% assign video_id = block.settings.youtube_video | split: 'v=' | last | split: '&' | first %}
+        <div class="video-block" data-video-id="{{ video_id }}">
+          {% if block.settings.cover_image != blank %}
+            <div class="video-thumbnail" style="background-image: url('{{ block.settings.cover_image | img_url: 'master' }}');">
+              <div class="play-icon video-wrapper__play-button--ripple">&#9658;</div>
+            </div>
+          {% else %}
+            <div class="video-responsive">
+              <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&amp;rel=0" 
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+              </iframe>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  /* Define the play button background variable (RGB format) */
+  :root {
+    --play-button-background: 252, 250, 248; /* Adjust as needed */
+  }
+
+  /* Section container */
+  .video-section {
+    padding: 50px;
+  }
+  .video-section__header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Desktop grid view (screens 1025px and above) with a reduced gap */
+  @media screen and (min-width: 1025px) {
+    .video-section__videos {
+      display: flex;
+      /* grid-template-columns: repeat(4, 1fr); */
+      gap: 20px;
+      justify-content: center;
+    }
+  }
+  .video-block {
+    width: 253px !important;
+    height: 450px !important;
+    position: relative;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  /* Portrait thumbnail with fixed dimensions */
+  .video-thumbnail {
+    max-width: 253px !important;
+    position: relative;
+    width: 100%;
+    padding-top: 178.5%; /* roughly a 450px height when width is 253px */
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  
+  /* Play icon styling */
+  .video-thumbnail .play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34px;
+    color: #4a4a4a;
+    background: #fcfaf8e6;;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Ripple animation keyframes (using your provided code) */
+  @keyframes playButtonRipple {
+    0% {
+      box-shadow: 0 0 0 0 rgb(var(--play-button-background)), 0 0 0 0 rgb(var(--play-button-background));
+    }
+    100% {
+      box-shadow: 0 0 0 9px rgba(var(--play-button-background), 0), 0 0 0 18px rgba(var(--play-button-background), 0);
+    }
+  }
+  .video-wrapper__play-button--ripple {
+    animation: playButtonRipple 1400ms ease-in-out infinite;
+  }
+
+  /* Responsive video embed container */
+  .video-responsive {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 177.78%;
+  }
+  .video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Mobile view (smartphones: max-width 768px) - using slick slider */
+  @media screen and (max-width: 768px) {
+    .video-section__videos {
+      display: block;
+      width: 253px !important;
+      margin: 0 auto;
+    }
+    .video-block {
+      margin-bottom: 20px;
+    }
+    .custom-arrow {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .slick-prev { left: 5%; }
+    .slick-next { right: 5%; }
+    .slick-dots {
+      position: absolute;
+      bottom: -30px !important;
+      width: 100%;
+      text-align: center;
+    }
+    .slick-dots li button:before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #009688;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .slick-prev:before {
+      position: relative;
+      bottom: 16px;
+      right: 20px;
+    }
+    .slick-next:before {
+      position: relative;
+      bottom: 16px;
+      left: 28px;
+    }
+    .slick-prev:before, .slick-next:before {
+      font-size: 35px !important;
+      color: #005461 !important;
+    }
+    .slick-dots li.slick-active button:before {
+      background: #009688;
+    }
+  }
+
+  /* Tablet view (min-width: 769px and max-width: 1024px): Horizontal scroll with increased gap */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .video-section__videos {
+      display: flex;
+      gap: 20px; /* Increased gap for tablets */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      /* Allow extra space so that if only 3 items fit, you can scroll for more */
+      padding-bottom: 10px;
+    }
+    .video-block {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // When a thumbnail is clicked, replace it with an autoplaying video embed.
+  document.querySelectorAll('.video-thumbnail').forEach(function(thumbnail) {
+    thumbnail.addEventListener('click', function() {
+      var parentBlock = thumbnail.closest('.video-block');
+      var videoId = parentBlock.getAttribute('data-video-id');
+      var embedHTML = '<div class="video-responsive">' +
+                        '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&amp;rel=0" ' +
+                        'frameborder="0" ' +
+                        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+                        'allowfullscreen></iframe></div>';
+      parentBlock.innerHTML = embedHTML;
+    });
+  });
+
+  // Initialize or destroy the slick slider based on viewport width.
+  function initSlider() {
+    if(window.innerWidth <= 768) {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && !jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick({
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+          adaptiveHeight: true,
+          prevArrow: '<button type="button" class="slick-prev custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>',
+          nextArrow: '<button type="button" class="slick-next custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>'
+        });
+      }
+    } else {
+      if(window.jQuery && typeof jQuery.fn.slick !== 'undefined' && jQuery('.video-section__videos').hasClass('slick-initialized')) {
+        jQuery('.video-section__videos').slick('unslick');
+      }
+    }
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    initSlider();
+  });
+  
+  // Also listen for Shopify's section load event to cover when the section is added to product pages dynamically.
+  document.addEventListener("shopify:section:load", function(event) {
+    initSlider();
+  });
+  // Initialize slider on load and on resize.
+  initSlider();
+  window.addEventListener("resize", initSlider);
+});
+</script>
+{% endcomment %}
+
+{% comment %}
+  
+<section class="video-section" id="video-section" style="background-color: {{ section.settings.section_bg_color }};">
+  <div class="video-section__header">
+    {% if section.settings.heading %}
+      <h2 style="color: {{ section.settings.heading_color }}; font-size: {{ section.settings.heading_font_size }}px;">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if section.settings.subheading %}
+      <p style="color: {{ section.settings.subheading_color }}; font-size: {{ section.settings.subheading_font_size }}px;">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="video-section__videos">
+    {% for block in section.blocks %}
+      {% if block.settings.youtube_video != blank %}
+        {% assign video_id = block.settings.youtube_video | split: 'v=' | last | split: '&' | first %}
+        <div class="video-block" data-video-id="{{ video_id }}">
+          {% if block.settings.cover_image != blank %}
+            <div class="video-thumbnail" style="background-image: url('{{ block.settings.cover_image | img_url: 'master' }}');">
+              <div class="play-icon video-wrapper__play-button--ripple">&#9658;</div>
+            </div>
+          {% else %}
+            <div class="video-responsive">
+              <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&amp;rel=0" 
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+              </iframe>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  :root {
+    --play-button-background: 252, 250, 248;
+  }
+  
+  .video-section {
+    padding: 50px;
+  }
+  .video-section__header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Desktop grid view */
+  @media screen and (min-width: 1025px) {
+    .video-section__videos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+  }
+  .video-block {
+    width: 253px !important;
+    height: 450px !important;
+    position: relative;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+  .video-thumbnail {
+    max-width: 253px !important;
+    position: relative;
+    width: 100%;
+    padding-top: 178.5%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  .video-thumbnail .play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34px;
+    color: #4a4a4a;
+    background: rgba(var(--play-button-background), 0.9);
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @keyframes playButtonRipple {
+    0% {
+      box-shadow: 0 0 0 0 rgb(var(--play-button-background)), 0 0 0 0 rgb(var(--play-button-background));
+    }
+    100% {
+      box-shadow: 0 0 0 9px rgba(var(--play-button-background), 0), 0 0 0 18px rgba(var(--play-button-background), 0);
+    }
+  }
+  .video-wrapper__play-button--ripple {
+    animation: playButtonRipple 1400ms ease-in-out infinite;
+  }
+  .video-responsive {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 177.78%;
+  }
+  .video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Mobile styles for slider */
+  @media screen and (max-width: 768px) {
+    /* It’s best to let slick control the display, so avoid any grid or block overrides */
+    .video-section__videos {
+      margin: 0 auto;
+    }
+    .video-block {
+      margin-bottom: 20px;
+    }
+    .custom-arrow {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .slick-prev { left: 5%; }
+    .slick-next { right: 5%; }
+    .slick-dots {
+      position: absolute;
+      bottom: -30px !important;
+      width: 100%;
+      text-align: center;
+    }
+    .slick-dots li button:before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #009688;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .slick-prev:before, .slick-next:before {
+      font-size: 35px !important;
+      color: #005461 !important;
+    }
+    .slick-dots li.slick-active button:before {
+      background: #009688;
+    }
+  }
+
+  /* Tablet view styling remains the same */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .video-section__videos {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+    }
+    .video-block {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  }
+</style>
+
+<script>
+  // Wrap all functionality in one DOMContentLoaded listener
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    // Replace thumbnail with autoplay video on click.
+    document.querySelectorAll('.video-thumbnail').forEach(function(thumbnail) {
+      thumbnail.addEventListener('click', function() {
+        var parentBlock = thumbnail.closest('.video-block');
+        var videoId = parentBlock.getAttribute('data-video-id');
+        var embedHTML = '<div class="video-responsive">' +
+                          '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&amp;rel=0" ' +
+                          'frameborder="0" ' +
+                          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+                          'allowfullscreen></iframe></div>';
+        parentBlock.innerHTML = embedHTML;
+      });
+    });
+
+    // Slider initialization function.
+    function initSlider() {
+      if (window.innerWidth <= 768) {
+        if (window.jQuery && typeof jQuery.fn.slick !== 'undefined' && !jQuery('.video-section__videos').hasClass('slick-initialized')) {
+          jQuery('.video-section__videos').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true,
+            adaptiveHeight: true,
+            prevArrow: '<button type="button" class="slick-prev custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>',
+            nextArrow: '<button type="button" class="slick-next custom-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>'
+          });
+        }
+      } else {
+        if (window.jQuery && typeof jQuery.fn.slick !== 'undefined' && jQuery('.video-section__videos').hasClass('slick-initialized')) {
+          jQuery('.video-section__videos').slick('unslick');
+        }
+      }
+    }
+
+    // Initialize the slider immediately, on Shopify section load, and on window resize.
+    initSlider();
+    window.addEventListener("resize", initSlider);
+    document.addEventListener("shopify:section:load", initSlider);
+  });
+</script>
+{% endcomment %}
+{% schema %}
+{
+  "name": "Video Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Featured Videos"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "Watch our latest highlights"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (px)",
+      "min": 16,
+      "max": 96,
+      "step": 1,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading Font Size (px)",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "default": 18
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "url",
+          "id": "youtube_video",
+          "label": "YouTube Video URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "cover_image",
+          "label": "Cover Image (Thumbnail)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Video Section-Main",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

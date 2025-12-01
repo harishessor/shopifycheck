@@ -1,0 +1,47 @@
+<div class="grid-product-card">
+  <!-- Product Image -->
+  <a href="{{ product.url }}" class="grid-product-card__image-link" data-instant>
+    {{ product.featured_media | image_url: width: product.featured_media.width | image_tag: loading: 'lazy', class: 'grid-product-card__image' }}
+  </a>
+  
+  <!-- Add to Cart Button -->
+  {%- if product.available and show_quick_buy -%}
+    {% if product.variants.size == 1 %}
+      <product-form>
+        {%- form 'product', product -%}
+          <!-- <button type="submit" class="button @narrow:horizontal-product-card__button">{{ 'product.general.add_to_cart_button' | t }}</button>
+          <button type="submit" class="button @large:horizontal-product-card__button button button--outline button--subdued">{{ 'product.general.add_to_cart_button' | t }}</button> -->
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <input type="hidden" name="on_success" value="force_open_drawer">
+          <button type="submit" class="grid-product-card__add-to-cart button">
+            ADD TO CART
+          </button>
+        {%- endform -%}
+      </product-form>
+    {% else %}
+      {% assign modal_id = 'modal-' | append: block.id | append: '-' | append: product.id %}
+      <quick-buy-modal id="{{ modal_id }}" handle="{{ product.handle }}?variant={{ product.selected_or_first_available_variant.id }}" class="quick-buy-modal modal modal--lg color-scheme color-scheme--dialog">
+        LOADING
+      </quick-buy-modal>
+      <!-- <button type="submit" class="button @narrow:horizontal-product-card__button">{{ 'product.general.add_to_cart_button' | t }}</button>
+      <button type="submit" class="button @large:horizontal-product-card__button button button--outline button--subdued">{{ 'product.general.add_to_cart_button' | t }}</button> -->
+      <button aria-controls="{{ modal_id }}" class="grid-product-card__add-to-cart button">
+        ADD TO CART
+      </button>
+    {% endif %}
+  {%- endif -%}
+
+  <!-- Product Title -->
+  <a href="{{ product.url }}" class="grid-product-card__title" data-instant>
+    {{ product.title }}
+  </a>
+  
+  <!-- Star Rating & Reviews and Price -->
+  <div class="grid-product-card__rating-price">
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="1028406" data-yotpo-product-id="{{product.id}}" data-yotpo-cart-product-id="{{item.product.id}}" data-yotpo-section-id="{{template.name}}"></div>
+        <div class="grid-product-card__price">
+      {%- render 'price-list', product: product, context: 'card' -%}
+    </div>
+  </div>
+</div>

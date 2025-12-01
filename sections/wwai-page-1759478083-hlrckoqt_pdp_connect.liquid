@@ -1,0 +1,122 @@
+<!-- WWAI_PRODUCT_CONNECTOR: Start -->
+{% if all_products != blank %}
+
+    {%- assign product_mapping_str = "
+    natural-dishwasher-detergent-packs:natural-dishwasher-detergent-packs:natural-dishwasher-detergent-packs,
+    natural-dishwasher-detergent-packs-sticky:natural-dishwasher-detergent-packs:natural-dishwasher-detergent-packs
+    " -%}
+
+    <!-- Start snippet: liquid_static_product_connection_json -->
+{%- assign cleaned_mapping_str = product_mapping_str | strip | strip_newlines -%}
+{%- assign product_mapping_array = cleaned_mapping_str | split: "," -%}
+
+{% assign unique_product_group_tags = "" %}
+{% for item in product_mapping_array %}
+  {% assign parts = item | strip | split: ":" %}
+  {% assign product_group_tag = parts[0] %}
+  {% assign product_tag = parts[1] %}
+  {% assign product_handle = parts[2] %}
+  {% assign current_tags = unique_product_group_tags_array | split: "," %}
+
+  {% unless current_tags contains product_group_tag %}
+    {% assign unique_product_group_tags = unique_product_group_tags | append: product_group_tag | append: "," %}
+  {% endunless %}
+{% endfor %}
+
+{% assign unique_product_group_tags = unique_product_group_tags | split: "," | uniq %}
+
+<script type="application/json" id="wwai-static-product-section-data">
+  {
+    "storeData": {
+      "productGroups": {
+        {%- assign valid_product_groups = "" -%}
+        {%- for product_group_tag in unique_product_group_tags -%}
+          {%- if product_group_tag != "" -%}
+            {%- assign has_products = false -%}
+            {%- for item in product_mapping_array -%}
+              {%- assign parts = item | strip | split: ":" -%}
+              {%- assign group_tag = parts[0] -%}
+              {%- if group_tag == product_group_tag -%}
+                {%- assign has_products = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if has_products -%}
+              {%- if valid_product_groups != "" -%},{%- endif -%}
+              "{{ product_group_tag }}": {
+                {%- assign first_product = true -%}
+                {%- for item in product_mapping_array -%}
+                  {%- assign parts = item | strip | split: ":" -%}
+                  {%- assign group_tag = parts[0] -%}
+                  {%- assign product_tag = parts[1] -%}
+                  {%- assign product_handle = parts[2] -%}
+                  {%- if group_tag == product_group_tag -%}
+                    {%- unless first_product -%},{%- endunless -%}
+                    "{{ product_tag }}": {{ all_products[product_handle] | json }}
+                    {%- assign first_product = false -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              }
+              {%- assign valid_product_groups = "true" -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      },
+      "variantSellingPlans": {
+        {%- assign first_variant = true -%}
+        {%- for item in product_mapping_array -%}
+          {%- assign parts = item | strip | split: ":" -%}
+          {%- assign product_group_tag = parts[0] -%}
+          {%- assign product_tag = parts[1] -%}
+          {%- assign product_handle = parts[2] -%}
+          {%- unless first_variant -%},{%- endunless -%}
+          "{{ product_group_tag }}__{{ product_tag }}": {
+            "variants":
+              {%- assign product = all_products[product_handle] -%}
+              {%- assign subscription_plan_metaobj = product.metafields.custom.subscription_selling_plan.value['selling_plan_groups'] -%}
+              {%- assign subscription_plan_provider = product.selling_plan_groups -%}
+              {%- assign product_variants_metaobj = product.metafields.custom.variant_selling_plan.value['variants'] -%}
+              {%- assign product_variants_shopify = product.variants -%}
+              {%- if use_mock_subscription -%}
+                {{ product_variants_metaobj | json }}
+              {%- else -%}
+                {{ product_variants_shopify | json }}
+              {%- endif -%},
+            "selling_plan_groups":
+              {%- if use_mock_subscription -%}
+                {{ subscription_plan_metaobj | json }}
+              {%- else -%}
+                {{ subscription_plan_provider | json }}
+              {%- endif -%}
+          }
+          {%- assign first_variant = false -%}
+        {%- endfor -%}
+      }
+    }
+  }
+</script>
+
+<script type="application/json" id="wwai-static-liquid-product-mapping-array">
+  {{ product_mapping_array | json }}
+</script>
+<!-- End snippet: liquid_static_product_connection_json -->
+  
+    <script src="{{ 'puracy_testimonial_test_pdp_connect_boilerplate_0310.js' | asset_url }}" defer></script>  
+    <script src="{{ 'functionality-generator_0310.js' | asset_url }}" defer></script>
+  {% endif %}
+  <!-- WWAI_PRODUCT_CONNECTOR: End -->
+  
+  {% schema %} 
+ {
+  "name": "Puracy Testi PDP Connect",
+  "class": "puracy-testimonial-pdp-connect",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Puracy Testi PDP Connect",
+      "category": "Custom"
+    }
+  ]
+} 
+ {% endschema %}

@@ -1,0 +1,453 @@
+{%- if section.blocks.size > 0 -%}
+  <style>
+    #shopify-section-{{ section.id }} {
+      --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
+      --product-list-horizontal-spacing-factor: {{ section.settings.horizontal_spacing_factor }};
+      --product-list-vertical-spacing-factor: {{ section.settings.vertical_spacing_factor }};
+    }
+
+    @media screen and (min-width: 700px) {
+      #shopify-section-{{ section.id }} {
+        --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
+      }
+    }
+  </style>
+
+  {%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
+
+  <div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} color-scheme--bg-{{ color_scheme_hash }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+    <div class="container">
+      {%- assign wrapper_carousel_id = 'featured-collections-carousel-' | append: section.id -%}
+
+      <div class="section-stack">
+        <div class="v-stack justify-self-center gap-4 text-center sm:gap-5">
+          {%- if section.settings.subheading != blank -%}
+            <p class="h6 text-center">{{- section.settings.subheading -}}</p>
+          {%- endif -%}
+
+          {%- if section.blocks.size > 1 -%}
+            <carousel-navigation align-selected class="featured-collections-navigation scroll-area bleed" aria-controls="{{ wrapper_carousel_id }}">
+              {%- for block in section.blocks -%}
+                <button class="h2" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+                  {{- block.settings.title | default: block.settings.collection.title | default: 'Collection' -}}
+                </button>
+              {%- endfor -%}
+            </carousel-navigation>
+          {%- else -%}
+            <h2 class="h2">{{ section.blocks.first.settings.title | default: section.blocks.first.settings.collection.title | default: 'Collection' }}</h2>
+          {%- endif -%}
+        </div>
+
+        <featured-collections-carousel id="{{ wrapper_carousel_id }}" class="featured-collections-carousel">
+          {%- for block in section.blocks -%}
+            <div class="featured-collections-carousel__item {% if forloop.first %}is-selected{% endif %}" {{ block.shopify_attributes }}>
+              {%- capture product_list -%}
+                {%- assign should_reveal = false -%}
+
+                {%- if settings.stagger_products_apparition and forloop.first -%}
+                  {%- assign should_reveal = true -%}
+                {%- endif -%}
+
+                {%- for product in block.settings.collection.products limit: block.settings.products_count -%}
+                  {%- render 'product-card-sub', product: product, reveal: should_reveal, position: forloop.index, hide_product_information: section.settings.hide_product_information, subs_benefits_header: section.settings.subs_benefits_header, subs_benefits_content: section.settings.subs_benefits_content, block: block, parent_section_id: section.id  -%}
+                {%- else -%}
+                  {%- for i in (1..block.settings.products_count) -%}
+                    {%- render 'product-card-placeholder', reveal: should_reveal, loop_index: forloop.index0, hide_product_information: section.settings.hide_product_information -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+
+              {%- if section.settings.stack_products -%}
+                <product-list class="product-list {% if section.settings.hide_product_information %}product-list--compact{% endif %} justify-center">
+                  {{- product_list -}}
+                </product-list>
+              {%- else -%}
+                {%- assign product_carousel_id = 'featured-collections-product-list-carousel-' | append: block.id -%}
+
+                <product-list class="floating-controls-container floating-controls-container--inside floating-controls-container--on-hover">
+                  <carousel-prev-button class="floating-controls-container__control" aria-controls="{{ product_carousel_id }}">
+                    <button type="button" class="prev-next-button prev-next-button--prev circle-button hover:animate-icon-inline" disabled>
+                      <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
+                      {%- render 'icon' with 'arrow-left', direction_aware: true -%}
+                    </button>
+                  </carousel-prev-button>
+
+                  <scroll-carousel id="{{ product_carousel_id }}" group-cells allow-drag class="product-list {% if section.settings.hide_product_information %}product-list--compact{% endif %} product-list--carousel scroll-area bleed md:unbleed">
+                    {{- product_list -}}
+                  </scroll-carousel>
+                  
+                  <carousel-next-button class="floating-controls-container__control" aria-controls="{{ product_carousel_id }}">
+                    <button type="button" class="prev-next-button prev-next-button--next circle-button hover:animate-icon-inline">
+                      <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
+                      {%- render 'icon' with 'arrow-right', direction_aware: true -%}
+                    </button>
+                  </carousel-next-button>
+                </product-list>
+              {%- endif -%}
+
+              {%- if block.settings.link_text != blank -%}
+                {%- assign button_link = block.settings.link_url | default: block.settings.collection.url | default: '#' -%}
+
+                <div class="justify-self-center">
+                  {%- render 'button', href: button_link, content: block.settings.link_text -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </featured-collections-carousel>
+
+        
+      </div>
+    </div>
+
+    {%- assign global_popup_id = 'global-subscription-benefits-popup-' | append: section.id -%}
+    {% comment %} {%- assign global_popup_id = 'global-subscription-benefits-popup-' -%} {% endcomment %}
+
+    {%- if section.settings.subs_benefits_header and section.settings.subs_benefits_content != blank -%}
+      <div class="simple-modal-overlay" id="{{ global_popup_id }}">
+        <div class="simple-modal-content">
+          <div class="simple-modal-header">
+            <h3 class="h4">{{ section.settings.subs_benefits_header }}</h3>
+            <button 
+              type="button" 
+              class="simple-modal-close" 
+              onclick="closeSimplePopup('{{ global_popup_id }}')"
+            >
+              &times; 
+            </button>
+          </div>
+          <div class="simple-modal-body">
+            {{ section.settings.subs_benefits_content }}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+{%- endif -%}
+
+
+<style>
+  /* Base Modal Overlay Styling */
+.simple-modal-overlay {
+    /* Hidden by default */
+    visibility: hidden;
+    opacity: 0;
+    
+    /* Fixed position over everything */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3); /* Dark semi-transparent background */
+    z-index: 9999; /* Ensure it's above all other content */
+    
+    display: none;
+    /* Centering the content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Transition for smooth appearance */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Modal Active State */
+.simple-modal-overlay.is-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Inner Modal Content Box */
+.simple-modal-content {
+    background-color: #f4f0ed;
+    padding: 24px;
+    max-width: 480px;
+    color: #333333;
+    width: 90%;
+    border-radius: 8px; /* Matches Prestige styling */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;    
+    /* Initial transform for simple animation */
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.simple-modal-overlay.is-active .simple-modal-content {
+    transform: translateY(0);
+}
+
+/* Modal Header and Close Button */
+.simple-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid grey;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.simple-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #038299;
+    font-weight: 600;
+}
+
+.simple-modal-close {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+    color: #333333;
+    padding: 0;
+    margin-left: 20px;
+    transition: color 0.2s;
+    font-weight: 400;
+}
+
+.simple-modal-close:hover {
+    color: #038299; /* Use a theme color for hover */
+}
+
+/* Ensure list formatting is clean */
+.simple-modal-body ul {
+    list-style-type: square;
+    padding-left: 20px;
+    margin: 0;
+}
+.simple-modal-body li {
+    margin-bottom: 5px;
+}
+.subs-benefits-link s {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    display: block;
+    line-height: 13px;
+}
+</style>
+
+<script>
+function openSimplePopup(popupId) { 
+  const modal = document.getElementById(popupId);
+  console.log("open called", popupId)
+      if (modal) {
+        modal.classList.add('is-active');
+
+        // Optional: Add a class to the body to prevent background scrolling
+        document.body.style.overflow = 'hidden'; 
+      }
+}
+function closeSimplePopup(popupId) {
+      const modal = document.getElementById(popupId);
+      if (modal) {
+        modal.classList.remove('is-active');
+        // Restore background scrolling
+        document.body.style.overflow = '';
+      }
+}
+     // Add event listener to close when clicking the overlay itself
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('simple-modal-overlay')) {
+      const modalId = event.target.id;
+      closeSimplePopup(modalId);
+    }
+});
+
+
+
+  function handleVariantSelect(productId, variantId, size) {
+    // console.log('handleVariantSelect', productId, variantId, size);
+    const allVariants = document.querySelectorAll(`[data-product-id="${productId}"]`);
+    // console.log('allVariants', allVariants);
+    allVariants.forEach(ele => {
+      const eleSize = ele.attributes['data-size']?.value;
+       {% comment %} console.log('eleSize', eleSize);
+       console.log('eleSize', size); {% endcomment %}
+      if(eleSize == size) {
+        // console.log('found');
+        const eleVariantId = ele.attributes['data-variant-id']?.value;
+         {% comment %} console.log('eleVariantId', eleVariantId);
+         console.log('eleVariantId', variantId); {% endcomment %}
+        if (eleVariantId != variantId) {
+          // console.log('remove hidden', ele);
+          ele.classList.remove('hidden');
+        } else {
+          // console.log('add hidden', ele);
+          ele.classList.add('hidden');
+        }
+      }
+    })
+  }
+
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Feature Collections Sub",
+  "class": "shopify-section--featured-collections-subscription",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:global.colors.scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "separate_section_with_border",
+      "label": "t:global.section.separate_section_with_border",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_product_information",
+      "label": "t:global.product_list.hide_product_information",
+      "info": "t:global.product_list.hide_product_information_info"
+    },
+    {
+      "type": "header",
+      "content": "t:global.product_list.product_list_category"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_products",
+      "label": "t:global.product_list.stack_products",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_mobile",
+      "label": "t:global.product_list.products_per_row_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 2,
+      "max": 6,
+      "label": "t:global.product_list.products_per_row_desktop",
+      "info": "t:global.product_list.products_per_row_desktop_info",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Subscription Block"
+    },
+    {
+      "type": "text",
+      "id": "subs_benefits_header",
+      "label": "Header",
+      "default": "Subscription Benefits"
+    },
+    {
+      "type": "richtext",
+      "id": "subs_benefits_content",
+      "label": "Contents",
+      "default": "<ul><li>Enjoy FREE shipping + 15% off on refills & concentrates<\/li><li>Never run out of essentials<\/li><li>Eco-friendly, sustainable choice<\/li><li>Flexibility to cancel anytime<\/li><\/ul>"
+    },
+    {
+      "type": "header",
+      "content": "t:global.product_list.spacing_category",
+      "info": "t:global.product_list.spacing_category_info"
+    },
+    {
+      "type": "range",
+      "min": 0.2,
+      "max": 2,
+      "step": 0.1,
+      "id": "horizontal_spacing_factor",
+      "label": "Horizontal spacing factor",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "min": 0.2,
+      "max": 2,
+      "step": 0.1,
+      "id": "vertical_spacing_factor",
+      "label": "Vertical spacing factor",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "t:global.section.header_category"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "t:global.text.subheading",
+      "default": "Featured collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "t:sections.featured_collections.blocks.collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.featured_collections.blocks.collection.collection"
+        },
+        {
+          "type": "range",
+          "id": "products_count",
+          "min": 2,
+          "max": 50,
+          "label": "t:global.product_list.products_to_show",
+          "default": 8
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:global.text.heading",
+          "info": "t:sections.featured_collections.blocks.collection.title_info"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "t:global.text.link_url",
+          "info": "t:sections.featured_collections.blocks.collection.default_link_url"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "t:global.text.link_text",
+          "default": "View all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature collections Sub",
+      "blocks": [
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

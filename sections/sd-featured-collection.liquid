@@ -1,0 +1,387 @@
+{%- if section.blocks.size > 0 -%}
+  <style>
+    #shopify-section-{{ section.id }} {
+      --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
+      --product-list-horizontal-spacing-factor: {{ section.settings.horizontal_spacing_factor }};
+      --product-list-vertical-spacing-factor: {{ section.settings.vertical_spacing_factor }};
+    }
+
+    @media screen and (min-width: 700px) {
+      #shopify-section-{{ section.id }} {
+        --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
+      }
+    }
+  </style>
+
+  {%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
+
+  <div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} color-scheme--bg-{{ color_scheme_hash }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+    <div class="container">
+      {%- assign wrapper_carousel_id = 'featured-collections-carousel-' | append: section.id -%}
+
+      <div class="section-stack">
+        <div class="v-stack justify-self-center gap-4 text-center sm:gap-5">
+          {%- if section.settings.subheading != blank -%}
+            <p class="h6 text-center">{{- section.settings.subheading -}}</p>
+          {%- endif -%}
+
+          {%- if section.blocks.size > 1 -%}
+            <carousel-navigation align-selected class="featured-collections-navigation scroll-area bleed" aria-controls="{{ wrapper_carousel_id }}">
+              {%- for block in section.blocks -%}
+                <button class="h2" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+                  {{- block.settings.label -}}
+                </button>
+              {%- endfor -%}
+            </carousel-navigation>
+          {%- else -%}
+            <h2 class="h2">{{ section.blocks.first.settings.heading }}</h2>
+          {%- endif -%}
+        </div>
+
+        <featured-collections-carousel id="{{ wrapper_carousel_id }}" class="featured-collections-carousel">
+          {%- for block in section.blocks -%}
+            <div class="featured-collections-carousel__item {% if forloop.first %}is-selected{% endif %}" {{ block.shopify_attributes }}>
+              {%- capture product_list -%}
+                {%- assign should_reveal = false -%}
+
+                {%- if settings.stagger_products_apparition and forloop.first -%}
+                  {%- assign should_reveal = true -%}
+                {%- endif -%}
+                {% comment %} {%- for product in block.settings.collection.products limit: block.settings.products_count -%} {% endcomment %}
+                {%- assign collection = block.settings.collection -%}
+                {%- for product in collection.products -%}   
+                {% comment %} {%- render 'product-card', product: product, reveal: should_reveal, position: forloop.index, hide_product_information: section.settings.hide_product_information, block: block -%} {% endcomment %}
+                  {%- if product.variants.size > 1 and section.settings.show_variants == true -%}
+                    {% for variant in product.variants %}
+                      {%- if count == section.settings.products_count -%}
+                        {%- break -%}
+                      {%- else -%}
+                        {%- capture output_buffer -%}
+                          {%- render 'product-card-variant', product: variant, collection: collection, block: block, sizes_attribute: sizes_attribute, reveal: settings.stagger_products_apparition, show_cta: section.settings.show_cta, show_cta_above_info: section.settings.show_cta_above_info, override_cta_text: section.settings.override_cta_text, custom_cta_text: section.settings.custom_cta_text, text_align: section.settings.product_item_text_align, allow_inline_subscribe: section.settings.allow_inline_subscribe -%}
+                        {%- endcapture -%}
+                        {%- if section.settings.fake_tag_filtering != 'none' -%}
+                          {%- assign fake_variant_tag = variant.metafields.my_fields.fake_variant_tag.value -%}
+                          {%- if section.settings.fake_tag_filtering == 'with_tag' -%}
+                            {%- if fake_variant_tag contains section.settings.fake_tag -%}
+                              {{ output_buffer }}
+                              {%- assign count = count | plus: 1 -%}
+                            {%- endif -%}
+                          {%- elsif section.settings.fake_tag_filtering == 'without_tag' -%}
+                            {%- if fake_variant_tag contains section.settings.fake_tag -%}
+                            {%- else -%}
+                              {{ output_buffer }}
+                              {%- assign count = count | plus: 1 -%}
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- elsif section.settings.show_subscribable_variants == true -%}
+                          {%- if variant.metafields.pui.variant_subscribable_collect -%}
+                            {{ output_buffer }}
+                          {% endif %}
+                        {% else %}
+                          {{ output_buffer }}
+                          {%- assign count = count | plus: 1 -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- capture output_buffer -%}
+                      {%- render 'product-card', product: product, collection: collection, block: block, sizes_attribute: sizes_attribute, reveal: settings.stagger_products_apparition, show_cta: section.settings.show_cta, show_cta_above_info: section.settings.show_cta_above_info, override_cta_text: section.settings.override_cta_text, custom_cta_text: section.settings.custom_cta_text, text_align: section.settings.product_item_text_align, allow_inline_subscribe: section.settings.allow_inline_subscribe -%}
+                    {%- endcapture -%}
+                    {%- if section.settings.fake_tag_filtering != 'none' -%}
+                      {%- assign fake_variant_tag = product.metafields.my_fields.fake_variant_tag.value -%}
+                      {%- if section.settings.fake_tag_filtering == 'with_tag' -%}
+                        {%- if fake_variant_tag contains section.settings.fake_tag -%}
+                          {{ output_buffer }}
+                          {%- assign count = count | plus: 1 -%}
+                        {% endif %}
+                      {%- elsif section.settings.fake_tag_filtering == 'without_tag' -%}
+                        {%- if fake_variant_tag contains section.settings.fake_tag -%}
+                        {%- else -%}
+                          {{ output_buffer }}
+                          {%- assign count = count | plus: 1 -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- elsif section.settings.show_subscribable_variants == true -%}
+                      {%- if product.metafields.pui.variant_subscribable_collect -%}
+                        {{ output_buffer }}
+                      {% endif %}
+                    {% else %}
+                      {{ output_buffer }}
+                      {%- assign count = count | plus: 1 -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- else -%}
+                  {%- for i in (1..block.settings.products_count) -%}
+                    {%- render 'product-card-placeholder', reveal: should_reveal, loop_index: forloop.index0, hide_product_information: section.settings.hide_product_information -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+
+              {%- if section.settings.stack_products -%}
+                <product-list class="product-list {% if section.settings.hide_product_information %}product-list--compact{% endif %} justify-center">
+                  {{- product_list -}}
+                </product-list>
+              {%- else -%}
+                {%- assign product_carousel_id = 'featured-collections-product-list-carousel-' | append: block.id -%}
+
+                <product-list class="floating-controls-container floating-controls-container--inside floating-controls-container--on-hover">
+                  <carousel-prev-button class="floating-controls-container__control" aria-controls="{{ product_carousel_id }}">
+                    <button type="button" class="prev-next-button prev-next-button--prev circle-button hover:animate-icon-inline" disabled>
+                      <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
+                      {%- render 'icon' with 'arrow-left', direction_aware: true -%}
+                    </button>
+                  </carousel-prev-button>
+
+                  <scroll-carousel id="{{ product_carousel_id }}" group-cells allow-drag class="product-list {% if section.settings.hide_product_information %}product-list--compact{% endif %} product-list--carousel scroll-area bleed md:unbleed">
+                    {{- product_list -}}
+                  </scroll-carousel>
+                  
+                  <carousel-next-button class="floating-controls-container__control" aria-controls="{{ product_carousel_id }}">
+                    <button type="button" class="prev-next-button prev-next-button--next circle-button hover:animate-icon-inline">
+                      <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
+                      {%- render 'icon' with 'arrow-right', direction_aware: true -%}
+                    </button>
+                  </carousel-next-button>
+                </product-list>
+              {%- endif -%}
+
+              {%- if block.settings.link_text != blank -%}
+                {%- assign button_link = block.settings.link_url | default: block.settings.collection.url | default: '#' -%}
+
+                <div class="justify-self-center">
+                  {%- render 'button', href: button_link, content: block.settings.link_text -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </featured-collections-carousel>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SD featured collections",
+  "class": "shopify-section--featured-collections shopify-section--new-sd-collections",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:global.colors.scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "separate_section_with_border",
+      "label": "t:global.section.separate_section_with_border",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_product_information",
+      "label": "t:global.product_list.hide_product_information",
+      "info": "t:global.product_list.hide_product_information_info"
+    },
+    {
+      "type": "header",
+      "content": "t:global.product_list.product_list_category"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_products",
+      "label": "t:global.product_list.stack_products",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_mobile",
+      "label": "t:global.product_list.products_per_row_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 2,
+      "max": 6,
+      "label": "t:global.product_list.products_per_row_desktop",
+      "info": "t:global.product_list.products_per_row_desktop_info",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "t:global.product_list.spacing_category",
+      "info": "t:global.product_list.spacing_category_info"
+    },
+    {
+      "type": "range",
+      "min": 0.2,
+      "max": 2,
+      "step": 0.1,
+      "id": "horizontal_spacing_factor",
+      "label": "Horizontal spacing factor",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "min": 0.2,
+      "max": 2,
+      "step": 0.1,
+      "id": "vertical_spacing_factor",
+      "label": "Vertical spacing factor",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "t:global.section.header_category"
+    },
+    {
+			"type": "checkbox",
+			"id": "show_variants",
+			"label": "Show Variants",
+			"info": "Show all variants on collection (size, fragrance, color, etc)",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "allow_inline_subscribe",
+			"label": "Allow Inline Subscribe",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_subscribable_variants",
+			"label": "Show Subscribable Variants",
+			"default": false
+		},
+		{
+			"type": "header",
+			"content": "Fake Variant Tags",
+			"info": "These are \"fake\" tags because they use variant metadata. Variants don't actually support tags."
+		},
+		{
+			"type": "select",
+			"id": "fake_tag_filtering",
+			"label": "Fake Tag Filtering",
+			"options": [
+				{
+					"value": "none",
+					"label": "None"
+				},
+				{
+					"value": "with_tag",
+					"label": "WITH this tag"
+				},
+				{
+					"value": "without_tag",
+					"label": "WITHOUT this tag"
+				}
+			],
+			"default": "none"
+		},
+		{
+			"type": "text",
+			"id": "fake_tag",
+			"label": "Fake Tag to use"
+		},
+        {
+			"type": "range",
+			"id": "products_count",
+			"label": "Products to show",
+			"min": 4,
+			"max": 50,
+			"step": 1,
+			"default": 8
+		},
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+			"settings": [
+        {
+					"type": "collection",
+					"id": "collection",
+					"label": "Collection"
+				},
+        { 
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collection Title"
+        },
+				{
+					"type": "text",
+					"id": "label",
+					"label": "Tab label",
+					"info": "Shown when more than 1 collection is featured. Collection title is used if none is set."
+				},
+				{
+					"type": "text",
+					"id": "button_text",
+					"label": "Button text"
+				},
+				{
+					"type": "url",
+					"id": "button_url",
+					"label": "Button link",
+					"info": "If empty, the collection URL is used."
+				}
+			]
+    },
+    {
+			"type": "category",
+			"name": "Category",
+			"settings": [
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Category"
+				}
+			]
+	},
+    {
+			"type": "text",
+			"name": "Description",
+			"settings": [
+				{
+					"type": "richtext",
+					"id": "desc",
+					"label": "Collection description"
+				}
+			]
+	},
+  ],
+  "presets": [
+   {
+	"name": "SD featured collections",
+	"blocks": [
+		{
+			"type": "collection",
+            "type": "category",
+            "type": "blog",
+            "type": "text"
+		}
+			],
+			"settings": {}
+		}
+  ]
+}
+{% endschema %}

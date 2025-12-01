@@ -1,0 +1,199 @@
+<div class="ingredient_accordion__wrap">
+    <div class="ingredient_short_list">
+        {{ product.metafields.custom.ingredients | metafield_tag }}
+
+        {% if product.metafields.custom.ingredients_popup_tab_1 != blank or product.metafields.custom.ingredients_popup_tab_2 != blank or product.metafields.custom.ingredients_popup_tab_3 != blank %}
+        <a class="ingredients_popup_trigger button button--outline" data-fancybox data-src="#ingredient_popup" href="javascript:;">FULL INGREDIENT LIST</a>
+        {% endif %}
+    </div>
+    <div class="ingredient_popup" id="ingredient_popup" style="display: none;">
+
+        <div class="tab-wrapper">
+            <ul class="tabs unstyled-list">
+                {% if product.metafields.custom.ingredients_popup_tab_1_title != blank %}
+                    <li class="tab-link active" data-tab="1">{{ product.metafields.custom.ingredients_popup_tab_1_title }}</li>
+                {% endif %}
+
+                {% if product.metafields.custom.ingredients_popup_tab_2_title != blank %}
+                    <li class="tab-link" data-tab="2">{{ product.metafields.custom.ingredients_popup_tab_2_title }}</li>
+                {% endif %}
+
+                {% if product.metafields.custom.ingredients_popup_tab_3_title != blank %}
+                    <li class="tab-link" data-tab="3">{{ product.metafields.custom.ingredients_popup_tab_3_title }}</li>
+                {% endif %}                
+            </ul>
+        </div>
+
+        <div class="content-wrapper">
+
+            {% if product.metafields.custom.ingredients_popup_tab_1 != blank %}
+            <div id="tab-1" class="tab-content active">
+                <h3 class="popup__title">Ingredients</h3>
+                
+                {% for accordion in product.metafields.custom.ingredients_popup_tab_1.value %}
+
+                    {% assign accordion_title = accordion.title %}
+                    {% assign accordion_content = accordion.description | metafield_tag %}
+
+                    {%- if accordion_title != blank and accordion_content != blank -%}
+                        {%- render 'accordion', title: accordion_title, content: accordion_content -%}
+                    {%- endif -%}
+
+                {% endfor %}                
+            </div>
+            {% endif %}
+
+            {% if product.metafields.custom.ingredients_popup_tab_2 != blank %}
+            <div id="tab-2" class="tab-content">
+                <h3 class="popup__title">Ingredients</h3>
+                
+                {% for accordion in product.metafields.custom.ingredients_popup_tab_2.value %}
+
+                    {% assign accordion_title = accordion.title %}
+                    {% assign accordion_content = accordion.description | metafield_tag %}
+
+                    {%- if accordion_title != blank and accordion_content != blank -%}
+                        {%- render 'accordion', title: accordion_title, content: accordion_content -%}
+                    {%- endif -%}
+
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if product.metafields.custom.ingredients_popup_tab_3 != blank %}
+            <div id="tab-3"class="tab-content">
+                <h3 class="popup__title">Ingredients</h3>
+                
+                {% for accordion in product.metafields.custom.ingredients_popup_tab_3.value %}
+
+                    {% assign accordion_title = accordion.title %}
+                    {% assign accordion_content = accordion.description | metafield_tag %}
+
+                    {%- if accordion_title != blank and accordion_content != blank -%}
+                        {%- render 'accordion', title: accordion_title, content: accordion_content -%}
+                    {%- endif -%}
+
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+</div>
+
+<style>
+    .ingredient_popup {
+        max-width: 1000px;
+        width: 100%;
+        padding: 0;
+        display: flex;
+    }
+    .ingredient_popup .content-wrapper {
+        padding: 22px;
+        background: #F3F9F7;
+        overflow: hidden;
+    }
+    .ingredient_popup .tab-content {
+        display: none;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeIn 0.5s ease 1 forwards;
+        height: 100%;
+        min-height: 550px;
+        max-height: 550px;
+        overflow-y: auto;
+        margin-right: -20px;
+        padding-right: 20px;
+    }    
+    .ingredient_popup .tab-wrapper {
+        width: 180px;
+        max-width: 180px;
+        min-width: 180px;
+        padding: 20px;
+    }
+    .ingredient_popup .content-wrapper {
+        flex: auto;
+    }
+    .ingredient_popup .tab-content.active {
+        display: block;
+    }
+    .ingredient_popup .tab-content .popup__title {
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        color: #035C68;
+        margin-bottom: 40px;
+    }
+    .ingredient_popup .accordion__toggle {
+        color: #035C68;
+    }
+    .ingredient_popup .accordion__content {
+        color: #035C68;
+    }
+    .ingredient_popup .animated-plus {
+        --animated-plus-size: 1rem;
+    }
+    .ingredient_popup .accordion {
+        border-color: #C5D7D8;
+    }
+    .ingredient_popup .is-close-button {
+        right: 20px;
+        top: 20px;
+        position: absolute;
+        background: #F3F9F7;
+    }
+    .ingredient_popup .is-close-button svg path {
+        stroke: #035C68;
+    }
+    .ingredient_popup .tabs li.tab-link {
+        cursor: pointer;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        color: #8AB6BA;
+        border-bottom: 2px solid transparent;
+    }
+    .ingredient_popup .tabs li.tab-link.active {
+        color: #035C68;
+        border-color: #A0CFC6;
+    }
+    .ingredient_popup .tab-wrapper .tabs {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    .ingredient_popup_open .fancybox__backdrop {
+        background: rgb(0 48 54 / 40%);
+    }
+    @keyframes fadeIn {
+        100% {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media(max-width: 767px) {
+        .ingredient_popup {
+            flex-direction: column;
+        }
+        .ingredient_popup .tab-wrapper {
+            max-width: 100%;
+            width: 100%;
+            min-width: 100%;
+        }
+        .ingredient_popup .tab-wrapper .tabs {
+            align-items: flex-start;
+        }
+        .ingredient_popup .is-close-button {
+            background: #fff;
+        }
+        .ingredient_popup .accordion__toggle {
+            font-size: 16px;
+            padding: 12px 0;
+        }
+    }
+</style>

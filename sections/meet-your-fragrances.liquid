@@ -1,0 +1,249 @@
+{%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
+
+<div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+  <div class="fragrances-section">
+    <div class="container container--lg">
+      <!-- Section Title -->
+      <div class="fragrances-title text-center">
+        {% if section.settings.title != blank %}
+          <h2 class="h2 color-inherit">{{ section.settings.title }}</h2>
+        {% endif %}
+      </div>
+
+      <div class="fragrances-main">
+        <!-- Left Column: Fragrance Slider -->
+        <div class="fragrances-col">
+          <div class="fragrances-slider">
+            {% for block in section.blocks %}
+              <div class="item">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt | escape }}">
+                {% endif %}
+              </div>              
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Right Column: Content -->
+        <div class="fragrances-col">
+          <div class="fragrances-content prose">
+
+            {% for block in section.blocks %}
+              <div class="scent-content scent{{ forloop.index }}" style="{% unless forloop.first %}display: none;{% endunless %}"> 
+                {% if block.settings.subtitle != blank %}
+                  <h3 class="h3 color-inherit">{{ block.settings.subtitle }}</h3>
+                {% endif %}
+                {% if block.settings.description != blank %}
+                  <p class="color-inherit">{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <div class="select-scent-main">
+              {% if section.settings.scent_title != blank %}
+                <p class="scent-title color-inherit">{{ section.settings.scent_title }}</p>
+              {% endif %}
+
+              <div class="select-scent-slider">
+                {% for scent in section.blocks %}                  
+                  <div class="item" data-id="scent{{ forloop.index }}">
+                    <div class="scent-boxs" style=" border-color: {{ scent.settings.scent_border_color }};">
+                      {% if scent.settings.icon %}
+                        <div class="scent-icon" style="background-color: {{ scent.settings.scent_bg_color }}; border-color: {{ scent.settings.scent_border_color }};">
+                          <img src="{{ scent.settings.icon | img_url: 'master' }}" alt="{{ scent.settings.title | escape }}">
+                        </div>
+                      {% endif %}
+                      <span class="color-inherit" style="color: {{ scent.settings.scent_border_color }};">{{ scent.settings.title }}</span>
+                    </div>
+                  </div>                  
+                {% endfor %}
+              </div>
+            </div>
+
+            {% for block in section.blocks %}
+              <div class="scent-content scent{{ forloop.index }}" style="{% unless forloop.first %}display: none;{% endunless %}">
+                {% if block.settings.button_label != blank %}
+                  <div class="button-group">
+                    <a class="button" href="{{ block.settings.button_link }}">
+                      {{ block.settings.button_label }}
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .shopify-section--fragrances-section .color-scheme { background: var(--Cherry-blossom, linear-gradient(180deg, #FFF 0%, {{ section.settings.bg_color }} 100%));}
+  .fragrances-section .fragrances-title {display: block; margin: 0 0 40px;}
+  .fragrances-section .fragrances-title h2 {display: block;}
+  .fragrances-section .fragrances-main {display: flex; flex-wrap: wrap; gap: 5rem; position: relative; align-items: center;}
+  .fragrances-section .fragrances-main .fragrances-col {display: block; width: calc(50% - 2.5rem); position: relative;}
+
+  .fragrances-slider {position: relative; width: 100%;}
+  .fragrances-slider .slick-list {}
+  .fragrances-slider .slick-track .slick-slide {opacity: 1; transition: all 0.5s; padding: 70px 0;}
+  .fragrances-slider .slick-track .slick-slide.slick-active {opacity: 0.8;}
+  .fragrances-slider .slick-track .slick-slide.slick-active.slick-current {transform: scale(1.3); opacity: 1; z-index: 1;}
+  .fragrances-slider .slick-track .slick-slide img {height: 415px; object-fit: cover; width: 100%; border-radius: 150px;}
+  
+  .fragrances-content {display: block;}
+  .select-scent-main {display: block; margin: 40px 0px;}
+  .select-scent-main .select-scent-slider { display: flex; margin-top: 10px; gap: 20px;}
+  
+  .select-scent-main .select-scent-slider .item {display: block; padding: 0px;}
+  .select-scent-main .select-scent-slider .item + .item { margin-top: 0;}
+  .select-scent-main .select-scent-slider .scent-boxs { display: flex; flex-wrap: nowrap; align-items: center; min-width: 62px; min-height: 62px; gap: 0; background: #fff; border-radius: 50px; padding-right: 0; cursor: pointer; transition: width 400ms ease; border: 1px solid; }
+  .select-scent-main .select-scent-slider .scent-boxs .scent-icon {display: block; border-radius: 50%; overflow: hidden; border: 0px solid; }
+  .select-scent-main .select-scent-slider .scent-boxs .scent-icon img {max-width: 100%; display: block; width: 60px;}
+  .select-scent-main .select-scent-slider .scent-boxs span {display: block; width: calc(100% - 79px); font-weight: 500; font-size: 18px; line-height: 100%; white-space: nowrap; width: 0; overflow: hidden; margin-top: 0; transition: all 0.3s ease-in-out;}
+
+  .select-scent-main .select-scent-slider .item.active .scent-boxs {width: auto; gap: 17px; padding-right: 20px;}
+  .select-scent-main .select-scent-slider .item.active .scent-boxs span { width: auto;}
+  .select-scent-main .select-scent-slider .item.active .scent-boxs .scent-icon { border: 1px solid; margin-left: -1px;}  
+
+  /* Apply color scheme to title and text */
+  .color-scheme-1 .color-inherit { color: var(--color-foreground); }
+  .color-scheme-2 .color-inherit { color: var(--color-foreground); }
+  .color-scheme-3 .color-inherit { color: var(--color-foreground); }
+
+
+  @media (max-width: 991px) {
+  	.fragrances-section .fragrances-main {gap: 2.5rem;}
+  	.fragrances-section .fragrances-main .fragrances-col {width: 100%;}
+  	.fragrances-slider {max-width: 590px; margin: 0 auto;}
+  }
+
+  @media (max-width: 767px) {
+  	.fragrances-section {padding: 20px 0;}
+  	.select-scent-main .select-scent-slider .slick-list .slick-track {transform: translate3d(0px, 0px, 0px) !important; width: auto !important; justify-content: flex-start;}
+  }
+
+  @media (max-width: 567px) {
+  	.fragrances-slider {max-width: 100%; margin: 0 auto;}
+  	.fragrances-slider .slick-track .slick-slide img {height: 350px;}
+  	.fragrances-content {text-align: center;}
+  	.select-scent-main {margin: 24px 0px 45px;}
+  	.select-scent-main .select-scent-slider .slick-list .slick-track {justify-content: center;}
+    .select-scent-main .select-scent-slider .scent-boxs .scent-icon img { width: 50px;}
+  	.select-scent-main .select-scent-slider .item .scent-boxs { min-width: 52px; min-height: 52px;}
+  	.select-scent-main .select-scent-slider .scent-boxs span {font-size: 14px;}
+  	.select-scent-main .select-scent-slider .item.slick-current .scent-boxs {gap: 13px; padding-right: 13px;}
+  	.fragrances-content .button-group {justify-content: center;}
+    .select-scent-main .select-scent-slider { gap: 10px; justify-content: center;}
+    .select-scent-main .select-scent-slider .item.active .scent-boxs {gap: 10px; padding-right: 15px;}
+  }
+
+  @media (max-width: 567px) {
+  	.fragrances-slider .slick-list {padding: 0 106px !important;}
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Meet Your Fragrances",
+  "tag": "section",
+  "class": "shopify-section shopify-section--fragrances-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "separate_section_with_border",
+      "label": "t:global.section.separate_section_with_border",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Meet Your Fragrances"
+    },
+    {
+      "type": "text",
+      "id": "scent_title",
+      "label": "Scent Title",
+      "default": "Select scent:"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scent_item",
+      "name": "Scent Option",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Scent Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Scent Name",
+          "default": "Unscented"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "A delicate blend of airy florals and subtle sweetness that captures the fleeting beauty of spring in full bloom."
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Our nature-inspired fragrance blends are made to last and deliver a delicate scent that lingers on your fabric.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "color",
+          "id": "scent_bg_color",
+          "label": "Scent Background Color"
+        },
+        {
+          "type": "color",
+          "id": "scent_border_color",
+          "label": "Scent Border Color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meet Your Fragrances",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

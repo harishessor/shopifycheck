@@ -1,0 +1,383 @@
+<!doctype html>
+
+<html lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
+  <head>
+{% render 'visually_io_sdk' %}
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5WZSXMB');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Start of Wordsworth AI Script -->    
+    <script defer src="https://d2zd0wa1vpt7j9.cloudfront.net/838485ee50d17e10/wwai_section_analytics.js"></script>
+    <script defer src="https://d2zd0wa1vpt7j9.cloudfront.net/engagement_metrics_visualisation.js"></script>
+    <!-- End of Wordsworth AI Script -->   
+
+    <!-- Start of TrueVault Code Block -->
+    <script src="https://polaris.truevaultcdn.com/static/pc/VSV2SDRBQ/polaris.js"></script>
+    <!-- End of TrueVault Code Block -->
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
+
+    <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 96 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180 }}">
+    {%- endif -%}
+
+    {%- comment -%}Few prefetch to increase performance on commonly used third-parties{%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+
+    {%- unless settings.heading_font.system? -%}
+      <link rel="preload" href="{{ settings.heading_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- unless settings.text_font.system? -%}
+      <link rel="preload" href="{{ settings.text_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- render 'social-meta-tags' -%}
+    {%- render 'microdata-schema' -%}
+    {%- render 'css-variables' -%}
+    {%- render 'js-variables' -%}
+
+    {%- if request.page_type == 'gift_card' -%}
+      <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    {%- endif -%}
+
+    <script type="importmap">
+      {%- comment -%}On Safari 16.3 and lower, a polyfill is used to load importmap{%- endcomment -%}
+      {
+        "imports": {
+          "vendor": "{{ 'vendor.min.js' | asset_url }}",
+          "theme": "{{ 'theme.js' | asset_url }}",
+          "photoswipe": "{{ 'photoswipe.min.js' | asset_url }}"
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js" defer></script>
+    
+
+    <script type="module" src="{{ 'vendor.min.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script> -->
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+      integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+      integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+    {{ content_for_header }}
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.css" />
+      
+    {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
+    <script type="text/javascript">
+(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/Shz7bovD8MpVDqjZdfbKXzjTLMIpphHL097tWbj3/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+</script>
+  </head>
+
+  {% liquid
+    assign features_class = ''
+  
+    if settings.show_button_transition
+      assign features_class = features_class | append: 'features--button-transition '
+    endif
+  
+    if settings.show_image_zoom_on_hover
+      assign features_class = features_class | append: 'features--zoom-image '
+    endif
+  %}
+
+  <body class="template–{{ template | replace: '.', '-' | handle }} {{ features_class }} color-scheme color-scheme--{{ settings.default_color_scheme.id }}">
+    {%- render 'shadow-dom-templates' -%}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WZSXMB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <loading-bar class="loading-bar" aria-hidden="true"></loading-bar>
+    <a href="#main" allow-hash-change class="skip-to-content sr-only">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+    <span id="header-scroll-tracker" style="position: absolute; width: 1px; height: 1px; top: var(--header-scroll-tracker-offset, 10px); left: 0;">
+      {%- comment -%}
+        This allows our theme to track when the user has scrolled a given amount of pixels, without relying on a global scroll listener. This helps
+        to improve performance and reduce reflows.
+      {%- endcomment -%}
+    </span>
+
+    {%- if request.page_type != 'password' -%}
+      {%- sections 'header-group' -%}
+      {%- sections 'overlay-group' -%}
+    {%- endif -%}
+
+    <main id="main" class="anchor">
+      {{ content_for_layout }}
+
+      {%- comment -%}
+      IMPLEMENTATION NOTE: For best semantics, having the footer group outside the main would be slightly better, but
+        moving it inside the main allows to have all the sections (including sections inside the footer group) to be
+        consecutive, and hence having a cleaner margin collapsing management.
+      {%- endcomment -%}
+      {%- if request.page_type != 'password' -%}
+        {%- sections 'footer-group' -%}
+      {%- endif -%}
+    </main>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script defer src="https://officevalle.com/a11yvision/dist/main.js-1.3.1.min.js"></script>
+    <script defer>
+      document.addEventListener('DOMContentLoaded', function () {
+          const colorScheme = new ColorScheme("{{ 'sample-json.json' | asset_url }}");
+          colorScheme.initializeColorScheme();
+      })
+    </script>
+    <!-- <script>
+      document.addEventListener('DOMContentLoaded', () => {
+  const mainForm   = document.getElementById('{{ product_form_id }}');
+  const stickyText = document.querySelector('.product-sticky-bar .selling-plan-text');
+  if (!mainForm || !stickyText) return;
+
+  function updateStickyPlan() {
+    // find the checked radio under your subscription block
+    const checked = mainForm.querySelector('input[name="purchaseOption"]:checked');
+    if (!checked) {
+      stickyText.textContent = '';
+      return;
+    }
+
+    // go up to the rc-purchase-option wrapper
+    const optionEl = checked.closest('.rc-purchase-option');
+    if (!optionEl) {
+      stickyText.textContent = '';
+      return;
+    }
+
+    const badge = optionEl.querySelector('.rc-purchase-option__badge');
+    const label = badge
+      ? badge.textContent.trim()
+      : optionEl.querySelector('.rc-purchase-option__label')?.textContent.trim() || '';
+
+    const priceEl = optionEl.querySelector('[part="rc-purchase-option__discounted-price"]');
+    const price   = priceEl ? priceEl.textContent.trim() : '';
+
+    stickyText.textContent = [label, price].filter(Boolean).join(' – ');
+  }
+
+  // listen for any change on those radio buttons
+  mainForm.querySelectorAll('input[name="purchaseOption"]').forEach(radio => {
+    radio.addEventListener('change', updateStickyPlan);
+  });
+
+  mainForm.addEventListener('recharge:plans:update', updateStickyPlan);
+
+  // initialize once
+  updateStickyPlan();
+});
+
+    </script> -->
+
+<!-- 
+    Dropdown Bar script
+    <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var selectEl = document.getElementById('sticky-selling-plan-select');
+    var displayEl = document.querySelector('.selling-plan-info');
+    var changeBtn = document.getElementById('sticky-change-subscription');
+
+    // When the dropdown value changes, update the display.
+    if (selectEl && displayEl) {
+      selectEl.addEventListener('change', function(){
+         var selectedText = selectEl.options[selectEl.selectedIndex].text;
+         displayEl.textContent = selectedText;
+         console.log("Selling plan updated to: " + selectedText);
+      });
+    }
+    
+    // Optionally, let the "Change" button toggle the dropdown's visibility or focus it.
+    if (changeBtn && selectEl) {
+      changeBtn.addEventListener('click', function(){
+         // For demo purposes, simply focus the dropdown.
+         selectEl.focus();
+      });
+    }
+  });
+</script> -->
+<!-- <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Helper: read the current "Deliver every..." text from the first rc-selling-plans
+  function readRechargePlan() {
+    const comp = document.querySelector('rc-selling-plans');
+    if (!comp || !comp.shadowRoot) return '';
+    const sel = comp.shadowRoot.querySelector('select[name="rc_plan"]');
+    return sel?.selectedOptions[0]?.textContent.trim() || '';
+  }
+
+  // Every 250ms, re-query the placeholder AND update it
+  setInterval(() => {
+    const placeholder = document.querySelector('.product-sticky-bar .selling-plan-text');
+    if (!placeholder) return;          // bar not in DOM (e.g. sold out) → skip
+    const current = readRechargePlan();
+    placeholder.textContent = current;  // write—even if blank → clears old text
+  }, 250);
+});
+</script>
+ -->
+
+    
+<!-- CO    
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("Selling plan polling script loaded");
+    
+    // Locate the product form that submits to /cart/add.
+    var productForm = document.querySelector('form[action*="/cart/add"]');
+    // Locate the sticky bar element used to display the selling plan text.
+    var stickyDisplay = document.querySelector('.selling-plan-info');
+    
+    if (!productForm) {
+      console.error("Product form (form[action*='/cart/add']) not found.");
+      return;
+    }
+    if (!stickyDisplay) {
+      console.error("Sticky bar display element (.selling-plan-info) not found.");
+      return;
+    }
+    
+    // We'll store the last known selling_plan value so that we only update if it changes.
+    var lastSellingPlanVal = null;
+    
+    // Our polling function – using formData.entries() explicitly.
+    function pollForSellingPlanChange() {
+      const formData = new FormData(productForm);
+      
+      // Convert all entries into an array so we can inspect them.
+      const entries = Array.from(formData.entries());
+      console.log("FormData entries:", entries);
+      
+      // Look for an entry with key "selling_plan"
+      const spEntry = entries.find(function(entry) {
+        return entry[0] === "selling_plan";
+      });
+      
+      // If found, set currentSp to its value; otherwise null.
+      const currentSp = spEntry ? spEntry[1] : null;
+      
+      console.log("Polling – current selling_plan value is:", currentSp);
+      
+      // If we have a valid value and it's changed since last poll…
+      if (currentSp && currentSp !== lastSellingPlanVal) {
+        lastSellingPlanVal = currentSp;
+        console.log("Detected selling_plan change:", currentSp);
+        
+        // Lookup the selling plan name from our JSON.
+        var planName = null;
+        if (window.sellingPlanData && Array.isArray(window.sellingPlanData)) {
+          var allocation = window.sellingPlanData.find(function(item) {
+            return String(item.id) === String(currentSp);
+          });
+          if (allocation && allocation.name) {
+            planName = allocation.name;
+          }
+        }
+        if (planName) {
+          stickyDisplay.textContent = planName;
+          console.log("Sticky bar updated to:", planName);
+        } else {
+          console.warn("No matching plan found for selling_plan value:", currentSp);
+        }
+      }
+    }
+    
+    // Start polling every 500ms.
+    setInterval(pollForSellingPlanChange, 500);
+  });
+</script>
+
+ -->
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the hidden input that holds the current selling plan id
+    var hiddenInput = document.getElementById('product-selling-plan');
+    // Get the sticky display element (currently empty)
+    var stickyDisplay = document.querySelector('.selling-plan-info');
+    
+    if (!hiddenInput) {
+      console.error("Hidden selling plan input (#product-selling-plan) not found.");
+      return;
+    }
+    if (!stickyDisplay) {
+      console.error("Sticky bar display element (.selling-plan-info) not found.");
+      return;
+    }
+    
+    // Set a default plan on page load from the hidden input's value.
+    var defaultPlanId = hiddenInput.value;
+    if (window.sellingPlanData && Array.isArray(window.sellingPlanData)) {
+      var allocation = window.sellingPlanData.find(function(item) {
+        return String(item.id) === String(defaultPlanId);
+      });
+      if (allocation && allocation.name) {
+        stickyDisplay.textContent = allocation.name;
+        console.log("Default sticky bar plan set to:", allocation.name);
+      } else {
+        // Optionally, set a placeholder or a message
+        stickyDisplay.textContent = "Select delivery plan";
+      }
+    }
+    
+    // Listen for changes dispatched from product-form.js (if any)
+    document.addEventListener("selling_plan:changed", function(e) {
+      if (e.detail && e.detail.selling_plan) {
+        var newPlanId = e.detail.selling_plan;
+        console.log("Received selling_plan:changed, new value:", newPlanId);
+        
+        if (window.sellingPlanData && Array.isArray(window.sellingPlanData)) {
+          var allocation = window.sellingPlanData.find(function(item) {
+            return String(item.id) === String(newPlanId);
+          });
+          if (allocation && allocation.name) {
+            stickyDisplay.textContent = allocation.name;
+            console.log("Sticky bar updated to:", allocation.name);
+          } else {
+            console.warn("No matching plan found for ID:", newPlanId, window.sellingPlanData);
+          }
+        } else {
+          console.warn("window.sellingPlanData is unavailable or not an array.");
+        }
+      }
+    });
+  });
+</script>
+ -->
+    <script src="{{ 'a11y1.js' | asset_url }}" defer></script>
+    <link rel="stylesheet" href="{{ 'a11y1.css' | asset_url }}">
+    <script src="{{'custom.js' | asset_url }}" defer></script>
+    
+
+
+
+  </body>
+</html>

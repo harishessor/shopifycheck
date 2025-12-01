@@ -1,0 +1,110 @@
+<!--LOOMI SDK-->
+<!--DO NOT EDIT-->
+<!--Start - Anti Flicker-->
+<style id="vslyAntiFlickerStyle-AE29">
+    body {
+        opacity: 0;
+    }
+</style>
+<style id="vslyAntiFlickerStyle-BC82">
+    body {
+        transition: opacity 0.1s linear;
+
+        animation: vslyAntiFlickerFadeIn 0.1s linear;
+        -moz-animation: vslyAntiFlickerFadeIn 0.1s linear;
+        -o-animation: vslyAntiFlickerFadeIn 0.1s linear;
+        -webkit-animation: vslyAntiFlickerFadeIn 0.1s linear;
+
+        animation-fill-mode: forwards;
+        -moz-animation-fill-mode: forwards;
+        -o-animation-fill-mode: forwards;
+        -webkit-animation-fill-mode: forwards;
+
+        animation-delay: 0ms;
+        -moz-animation-delay: 0ms;
+        -o-animation-delay: 0ms;
+        -webkit-animation-delay: 0ms;
+    }
+
+    @keyframes vslyAntiFlickerFadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<script id="vslyAntiFlickerScript-OJ93">
+    console.debug('vsly-anti-flicker', 'Anti Flicker Script Loaded');
+    let fallbackTimer = -1;
+    let retryTimer = -1;
+    let retries = 0;
+
+    function _vslyAntiFlickerRevealInner() {
+        try {
+            console.debug('vsly-anti-flicker', 'Revealing');
+            const hideElem = document.querySelector('#vslyAntiFlickerStyle-AE29');
+            if (hideElem) {
+                hideElem.remove();
+            }
+            clearTimeout(fallbackTimer);
+            console.debug('vsly-anti-flicker', 'Revealing done');
+        } catch (ex) {
+            console.error('vsly-anti-flicker', ex);
+            if (retries > 15) {
+                setTimeout(window.vslyAntiFlickerReveal, 10);
+                retries += 1;
+            }
+        }
+    }
+
+    window.vslyAntiFlickerReveal = function () {
+        setTimeout(_vslyAntiFlickerRevealInner, 0);
+    }
+
+    fallbackTimer = setTimeout(() => {
+        console.debug('vsly-anti-flicker', 'Falling back after timeout');
+        window._vslyAntiFlickerRevealInner()
+        clearTimeout(retryTimer)
+    }, 0)
+</script>
+<!--End - Anti Flicker-->
+<link rel="preconnect"  href="https://live.visually-io.com/" crossorigin>
+<link rel="dns-prefetch" href="https://live.visually-io.com/">
+<script>
+(()=> {
+    const env = 2;
+    var store = "{{ shop.permanent_domain }}";
+    var alias = store.replace(".myshopify.com", "").replaceAll("-", "_").toUpperCase();
+    var jitsuKey =  "js.{{ shop.id }}";
+    window.loomi_ctx = {...(window.loomi_ctx || {}),storeAlias:alias,jitsuKey,env};
+    
+    {% if customer %}
+      window.loomi_ctx.ctags = []
+      {% for t in customer.tags %}
+        window.loomi_ctx.ctags.push("{{ t }}")
+      {% endfor %}
+    {% endif %}
+	{% if product %}
+	var product = {};
+	var variants = [];
+	{% for v in product.variants %}
+	variants.push({id:{{ v.id }},policy:"{{v.inventory_policy }}",price:{{v.price}},iq:{{ v.inventory_quantity }}});
+	{% endfor %}
+	product.variants = variants;
+	product.oos = !{{product.available}};
+	product.price = {{ product.price }} ;
+	window.loomi_ctx.current_product=product;
+	window.loomi_ctx.productId={{product.id}};
+	{%- if product.selected_or_first_available_variant %}
+	window.loomi_ctx.variantId = {{ product.selected_or_first_available_variant.id  }};
+	{%- endif %}
+	{% endif %}
+})()
+</script>
+<link href="https://live.visually-io.com/widgets/vsly-preact.min.js?k=js.2745001&e=2&s=PURACY" rel="preload" as="script">
+<script type="text/javascript" src="https://live.visually-io.com/widgets/vsly-preact.min.js?k=js.2745001&e=2&s=PURACY"></script>
+<link href="https://live.visually-io.com/cf/PURACY.js" rel="preload" as="script">
+<link href="https://live.visually-io.com/v/visually.js" rel="preload" as="script">
+<script type="text/javascript" src="https://live.visually-io.com/cf/PURACY.js"></script>
+<script type="text/javascript" src="https://live.visually-io.com/v/visually.js"></script>
+<script defer type="text/javascript" src="https://live.visually-io.com/v/visually-a.js"></script>
+<!--LOOMI SDK-->

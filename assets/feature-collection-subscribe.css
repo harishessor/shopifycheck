@@ -1,0 +1,71 @@
+.featured-collection-subscribe .rc-selling-plans-dropdown__select {
+  padding: 12px 24px;
+  border-radius: 5px;
+  color: #015C68;
+  border-color: #015C68;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--caret-down-svg-url) no-repeat right center;
+  background-size: 24px;
+  width: 80%;
+}
+
+.subscription-benefits {
+  color: #015C68;
+  padding: 10px 0;
+}
+
+.button-80 {
+  width: 80%;
+}
+.subs-benefits-link {
+  cursor: help;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-item__info--text-left .subs-benefits-link {
+  justify-content: start;
+}
+
+.subs-benefits-link img {
+  margin-right: 5px;
+}
+
+.featured-collection-subscribe .popup-modal {
+  background-color: #F4F0ED;
+}
+
+.featured-collection-subscribe hr {
+  position: relative;
+  top: -20px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* variant selector */
+.product-form__option-info {
+  margin-bottom: 0px;
+}
+
+.featured-collection-subscribe .product-form__option-info {
+  justify-content: center;
+}
+.featured-collection-subscribe .product-item__info--text-left .product-form__option-info {
+  justify-content: start;
+}
+
+.featured-collection-subscribe .color-swatch-list {
+  justify-content: center;
+}
+.featured-collection-subscribe .product-item__info--text-left .color-swatch-list {
+  justify-content: start;
+}
+
+.featured-collection-subscribe .color-swatch__item.selected {
+  border: 3px solid #4a4a4a;
+}

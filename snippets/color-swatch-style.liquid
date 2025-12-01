@@ -1,0 +1,31 @@
+{%- comment -%}
+  @sd:core
+  Extract a style from the color swatch config. You must passed two parameters to this snippet:
+  - color_swatch_config: extracted from the theme settings
+  - value: the actual color
+{%- endcomment -%}
+
+{%- assign color_value_downcase = value | downcase -%}
+{%- assign color_swatch_style = 'background-color: ' | append: color_value_downcase -%}
+
+{%- for color_swatch_item in color_swatch_config -%}
+ {%- assign color_swatch_parts = color_swatch_item | split: ':' -%}
+ {%- assign color_swatch_name = color_swatch_parts.first | downcase | strip -%}
+
+ {%- if color_value_downcase == color_swatch_name -%}
+ {%- assign color_swatch_value = color_swatch_parts.last | strip -%}
+
+ {%- if color_swatch_value contains '#' -%}
+ {%- assign color_swatch_style = 'background-color: ' | append: color_swatch_value -%}
+ {%- elsif color_swatch_value contains '.' -%}
+ {%- comment -%} Treat as an asset (image file) and use asset_url {%- endcomment -%}
+ {%- assign color_swatch_image = color_swatch_value | asset_url | img_url: '72x72' -%}
+ {%- assign color_swatch_style = 'background-image: url(' | append: color_swatch_image | append: '); background-size: cover;' -%}
+ {%- endif -%}
+
+ {%- break -%}
+{%- endif -%}
+{%- endfor -%}
+
+{{- color_swatch_style | strip -}}
+{% comment %} {{- color_swatch_style -}} {% endcomment %}

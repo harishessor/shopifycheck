@@ -1,0 +1,469 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collection-banner": {
+      "type": "collection-banner",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "image_size": "xs",
+        "allow_transparent_header": false,
+        "reveal": true,
+        "enable_parallax": true,
+        "show_image": false,
+        "show_collection_title": true,
+        "show_collection_description": true,
+        "show_breadcrumb": false,
+        "content_width": "xs",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "main": {
+      "type": "main-collection-custom",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "hide_product_information": false,
+        "products_per_page": 50,
+        "products_per_row_mobile": "2",
+        "products_size_desktop": "medium",
+        "show_grid_mode_selector": true,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "filter_layout": "sidebar",
+        "quick_links_menu": "",
+        "show_sort_by": true,
+        "show_filters": true,
+        "show_results_count": true,
+        "show_filter_group_name": false,
+        "show_filter_values_count": true,
+        "open_filters_by_default": true,
+        "show_variants": true,
+        "override_cta_text": true,
+        "custom_cta_text": "Add To Cart",
+        "move_oos_to_end": true,
+        "fake_tag_filtering": "with_tag",
+        "fake_tag": "refill"
+      }
+    },
+    "multi_column_9z8dJ8": {
+      "type": "multi-column",
+      "blocks": {
+        "image_with_text_UH4BFD": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.usp_image_1.value }}",
+            "title": "{{ collection.metafields.custom.usp_title_1.value }}",
+            "heading_tag": "h3",
+            "content": "<p>{{ collection.metafields.custom.usp_body_1 | metafield_tag }}</p>",
+            "link_url": "",
+            "link_text": ""
+          }
+        },
+        "image_with_text_wzUJrQ": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.usp_image_2.value }}",
+            "title": "{{ collection.metafields.custom.usp_title_2.value }}",
+            "heading_tag": "h3",
+            "content": "<p>{{ collection.metafields.custom.usp_body_2 | metafield_tag }}</p>",
+            "link_url": "",
+            "link_text": ""
+          }
+        },
+        "image_with_text_VRxMMz": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.usp_image_3.value }}",
+            "title": "{{ collection.metafields.custom.usp_title_3.value }}",
+            "heading_tag": "h3",
+            "content": "<p>{{ collection.metafields.custom.usp_body_3 | metafield_tag }}</p>",
+            "link_url": "",
+            "link_text": ""
+          }
+        },
+        "image_with_text_TBYYAb": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.usp_image_4.value }}",
+            "title": "{{ collection.metafields.custom.usp_title_4.value }}",
+            "heading_tag": "h3",
+            "content": "<p>{{ collection.metafields.custom.usp_body_4 | metafield_tag }}</p>",
+            "link_url": "",
+            "link_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_with_text_UH4BFD",
+        "image_with_text_wzUJrQ",
+        "image_with_text_VRxMMz",
+        "image_with_text_TBYYAb"
+      ],
+      "settings": {
+        "color_scheme": "scheme-859769a5-9d5d-482f-99a5-29ccf953bb58",
+        "separate_section_with_border": false,
+        "columns_per_row": 3,
+        "stack_on_mobile": true,
+        "overlap_image": false,
+        "content_alignment": "center",
+        "text_alignment": "start",
+        "spacing": "lg",
+        "subheading": "{{ collection.metafields.custom.usp_subheading.value }}",
+        "title": "{{ collection.metafields.custom.usp_heading.value }}",
+        "content": ""
+      }
+    },
+    "images_with_text_scroll_TqDGfK": {
+      "type": "images-with-text-scroll",
+      "blocks": {
+        "image_with_text_QG4k4R": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.image_with_text_scroller_image_1.value }}",
+            "subheading": "",
+            "title": "{{ collection.metafields.custom.image_with_text_scroller_heading_1.value }}",
+            "content": "<p>{{ collection.metafields.custom.image_with_text_scroller_content_1 | metafield_tag }}</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "image_with_text_QL3Fre": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.image_with_text_scroller_image_2.value }}",
+            "subheading": "",
+            "title": "{{ collection.metafields.custom.image_with_text_scroller_heading_2.value }}",
+            "content": "<p>{{ collection.metafields.custom.image_with_text_scroller_content_2 | metafield_tag }}</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "image_with_text_CfFCdB": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "{{ collection.metafields.custom.image_with_text_scroller_image_3.value }}",
+            "subheading": "",
+            "title": "{{ collection.metafields.custom.image_with_text_scroller_heading_3.value }}",
+            "content": "<p>{{ collection.metafields.custom.image_with_text_scroller_content_3 | metafield_tag }}</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        }
+      },
+      "block_order": [
+        "image_with_text_QG4k4R",
+        "image_with_text_QL3Fre",
+        "image_with_text_CfFCdB"
+      ],
+      "name": "t:sections.images_with_text_scroll.presets.images_with_text_scroll.name",
+      "settings": {
+        "color_scheme": "scheme-859769a5-9d5d-482f-99a5-29ccf953bb58",
+        "image_position": "start",
+        "text_alignment": "center",
+        "heading_tag": "h3",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "image_with_text_EE4QAP": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_cBwHzJ": {
+          "type": "subheading",
+          "settings": {
+            "text": "{{ collection.metafields.custom.science_subheading.value }}"
+          }
+        },
+        "heading_aACHBH": {
+          "type": "heading",
+          "settings": {
+            "text": "{{ collection.metafields.custom.science_heading.value }}",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_bqX6e3": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>{{ collection.metafields.custom.science_body | metafield_tag }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_cBwHzJ",
+        "heading_aACHBH",
+        "richtext_bqX6e3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-b7b5a1a8-68a2-4132-b6ed-da148ddac303",
+        "separate_section_with_border": false,
+        "image": "{{ collection.metafields.custom.science_desktop_image_1.value }}",
+        "mobile_image": "{{ collection.metafields.custom.science_mobile_image_1.value }}",
+        "reveal_on_scroll": true,
+        "image_position": "end",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "faq_WPhWLD": {
+      "type": "faq",
+      "blocks": {
+        "question_qVUpHe": {
+          "type": "question",
+          "settings": {
+            "question": "What is Puracy's mission?",
+            "answer": "<p>Puracy's mission is to make safe, natural, and efficient home and personal care products accessible to families for healthy living. We're committed to transparency, natural ingredients, and sustainable practices.</p>"
+          }
+        },
+        "question_J49LjY": {
+          "type": "question",
+          "settings": {
+            "question": "Are Puracy products safe for my family and pets?",
+            "answer": "<p>Absolutely! All Puracy products are designed with safety in mind, not only for humans but also for our furry friends. We carefully select ingredients that are gentle yet effective.</p>"
+          }
+        },
+        "question_cWpXaR": {
+          "type": "question",
+          "settings": {
+            "question": "What ingredients do Puracy use in their products?",
+            "answer": "<p>Puracy uses a blend of natural ingredients and gentle synthetic elements in our products. We strive to use plant-based ingredients whenever possible and all our formulations are free of harsh chemicals like sulfates, parabens, phthalates, and dyes.</p>"
+          }
+        },
+        "question_xe9BLy": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_4.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_4 | metafield_tag }}</p>"
+          }
+        },
+        "question_KwKJtY": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_5.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_5 | metafield_tag }}</p>"
+          }
+        },
+        "question_pKb9Rx": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_6.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_6 | metafield_tag }}</p>"
+          }
+        },
+        "question_rPprnm": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_7.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_7 | metafield_tag }}</p>"
+          }
+        },
+        "question_mRdAtV": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_8.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_8 | metafield_tag }}</p>"
+          }
+        },
+        "question_Fapjy3": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_9.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_9 | metafield_tag }}</p>"
+          }
+        },
+        "question_QiqUtf": {
+          "type": "question",
+          "settings": {
+            "question": "{{ collection.metafields.custom.faq_question_10.value }}",
+            "answer": "<p>{{ collection.metafields.custom.faq_answer_10 | metafield_tag }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_qVUpHe",
+        "question_J49LjY",
+        "question_cWpXaR",
+        "question_xe9BLy",
+        "question_KwKJtY",
+        "question_pKb9Rx",
+        "question_rPprnm",
+        "question_mRdAtV",
+        "question_Fapjy3",
+        "question_QiqUtf"
+      ],
+      "settings": {
+        "color_scheme": "scheme-859769a5-9d5d-482f-99a5-29ccf953bb58",
+        "separate_section_with_border": false,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "<strong>Frequently Asked Questions</strong>",
+        "content": ""
+      }
+    },
+    "custom_liquid_Gg8dK9": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom_liquid.presets.custom_liquid.name",
+      "settings": {
+        "color_scheme": "scheme-8abecf2f-e95d-4f4b-a06b-c26961043e32",
+        "separate_section_with_border": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "liquid": "<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"1126575\"></div>",
+        "text_alignment": "center"
+      }
+    },
+    "image_with_text_nMnXzM": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_R8rfWQ": {
+          "type": "subheading",
+          "settings": {
+            "text": ""
+          }
+        },
+        "heading_hPNDQ7": {
+          "type": "heading",
+          "settings": {
+            "text": "<strong>We're Only Happy If You're Happy</strong>",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_LhcpDp": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>We're confident you'll love our products, but if you're not satisfied, we'll provide a full refund. We may ask for feedback or a return to help improve our offerings.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_R8rfWQ",
+        "heading_hPNDQ7",
+        "richtext_LhcpDp"
+      ],
+      "settings": {
+        "color_scheme": "scheme-859769a5-9d5d-482f-99a5-29ccf953bb58",
+        "separate_section_with_border": false,
+        "image": "shopify://shop_images/badge_44626b41-f170-45d6-a8d2-b1e4255d91c4.png",
+        "mobile_image": "shopify://shop_images/badge_mobile_bbb82b36-be0b-418e-a7e5-8bdc6698a3c2.png",
+        "reveal_on_scroll": true,
+        "image_position": "end",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "shop_the_look_ix6CaD": {
+      "type": "shop-the-look",
+      "blocks": {
+        "look_eFc7yg": {
+          "type": "look",
+          "settings": {
+            "image": "shopify://shop_images/Promo_Free_Shipping_NTB_Desktop.webp",
+            "hot_spots_background": "#ffffff",
+            "product_1": "3-pack-spray-everyday-multi-surface-cleaner",
+            "product_1_horizontal_position": 35,
+            "product_1_vertical_position": 35,
+            "product_2": "natural-10x-baby-laundry-detergent",
+            "product_2_horizontal_position": 34,
+            "product_2_vertical_position": 65,
+            "product_3": "",
+            "product_3_horizontal_position": 66,
+            "product_3_vertical_position": 42,
+            "product_4": "",
+            "product_4_horizontal_position": 85,
+            "product_4_vertical_position": 85
+          }
+        },
+        "look_Cn383e": {
+          "type": "look",
+          "settings": {
+            "hot_spots_background": "#ffffff",
+            "product_1": "",
+            "product_1_horizontal_position": 30,
+            "product_1_vertical_position": 35,
+            "product_2": "",
+            "product_2_horizontal_position": 70,
+            "product_2_vertical_position": 30,
+            "product_3": "",
+            "product_3_horizontal_position": 60,
+            "product_3_vertical_position": 65,
+            "product_4": "",
+            "product_4_horizontal_position": 85,
+            "product_4_vertical_position": 85
+          }
+        },
+        "look_Uzjhra": {
+          "type": "look",
+          "settings": {
+            "hot_spots_background": "#ffffff",
+            "product_1": "",
+            "product_1_horizontal_position": 30,
+            "product_1_vertical_position": 35,
+            "product_2": "",
+            "product_2_horizontal_position": 70,
+            "product_2_vertical_position": 30,
+            "product_3": "",
+            "product_3_horizontal_position": 60,
+            "product_3_vertical_position": 65,
+            "product_4": "",
+            "product_4_horizontal_position": 85,
+            "product_4_vertical_position": 85
+          }
+        },
+        "look_j97QtM": {
+          "type": "look",
+          "settings": {
+            "hot_spots_background": "#ffffff",
+            "product_1": "",
+            "product_1_horizontal_position": 30,
+            "product_1_vertical_position": 35,
+            "product_2": "",
+            "product_2_horizontal_position": 70,
+            "product_2_vertical_position": 30,
+            "product_3": "",
+            "product_3_horizontal_position": 60,
+            "product_3_vertical_position": 65,
+            "product_4": "",
+            "product_4_horizontal_position": 85,
+            "product_4_vertical_position": 85
+          }
+        }
+      },
+      "block_order": [
+        "look_eFc7yg",
+        "look_Cn383e",
+        "look_Uzjhra",
+        "look_j97QtM"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "subheading": "",
+        "title": "Shop the look",
+        "content": "",
+        "popover_title": "Shop the look"
+      }
+    }
+  },
+  "order": [
+    "collection-banner",
+    "main",
+    "multi_column_9z8dJ8",
+    "images_with_text_scroll_TqDGfK",
+    "image_with_text_EE4QAP",
+    "faq_WPhWLD",
+    "custom_liquid_Gg8dK9",
+    "image_with_text_nMnXzM",
+    "shop_the_look_ix6CaD"
+  ]
+}

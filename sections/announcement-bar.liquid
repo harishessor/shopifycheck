@@ -1,0 +1,416 @@
+{%- if section.blocks.size > 0 -%}
+  <style>
+    :root {
+      --announcement-bar-is-sticky: {% if section.settings.enable_sticky %}1{% else %}0{% endif %};
+
+      {%- if section.index == 1 and section.settings.enable_sticky == false -%}
+        --header-scroll-tracker-offset: var(--announcement-bar-height);
+      {%- endif -%}
+    }
+
+    {%- if section.settings.enable_sticky -%}
+      #shopify-section-{{ section.id }} {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      .shopify-section--header ~ #shopify-section-{{ section.id }} {
+        top: calc(var(--header-is-sticky, 0) * var(--header-height, 0px));
+        z-index: 4; /* We have to lower the z-index in case the announcement bar is displayed after the header */
+      }
+    {%- endif -%}
+
+    #shopify-section-{{ section.id }} {
+      --announcement-bar-font-size: {{ section.settings.mobile_font_size | divided_by: 16.0 }}rem;
+    }
+
+    @media screen and (min-width: 999px) {
+      #shopify-section-{{ section.id }} {
+        --announcement-bar-font-size: {{ section.settings.desktop_font_size | divided_by: 16.0 }}rem;
+      }
+    }
+  </style>
+
+  <height-observer variable="announcement-bar">
+    <div class="announcement-bar color-scheme color-scheme--{{ section.settings.color_scheme.id }}">
+      {%- assign carousel_id = 'carousel-' | append: section.id -%}
+
+      {%- if section.blocks.size > 1 -%}
+        <carousel-prev-button aria-controls="{{ carousel_id }}" class="contents">
+          <button type="button" class="tap-area">
+            <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
+            {%- render 'icon' with 'arrow-left', width: 12, direction_aware: true -%}
+          </button>
+        </carousel-prev-button>
+      {%- endif -%}
+
+      <announcement-bar-carousel allow-swipe {% if section.settings.autoplay %}autoplay="{{ section.settings.cycle_speed }}"{% endif %} id="{{ carousel_id }}" class="announcement-bar__carousel">
+        {%- for block in section.blocks -%}
+          <div class="prose heading {% if forloop.first %}is-selected{% endif %}" {{ block.shopify_attributes }}>
+            <p>{{- block.settings.text -}}</p>
+            <span class="offer_drawer_opener" aria-controls="offers-drawer">VIEW OFFERS</span>
+          </div>
+        {%- endfor -%}
+      </announcement-bar-carousel>
+
+      {%- if section.blocks.size > 1 -%}
+        <carousel-next-button aria-controls="{{ carousel_id }}" class="contents">
+          <button type="button" class="tap-area">
+            <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
+            {%- render 'icon' with 'arrow-right', width: 12, direction_aware: true -%}
+          </button>
+        </carousel-next-button>
+      {%- endif -%}
+    </div>
+  </height-observer>
+
+  <offers-drawer id="offers-drawer"  class="offer-drawer drawer color-scheme color-scheme--{{ section.settings.color_scheme2.id }}" initial-focus="false">
+    <p class="h4" slot="header">Offers</p>
+    <div class="py-4 h-full overflow-y-auto flex flex-col flex-1" style="padding-top: 0px; padding-bottom: 0px;">
+      <section role="list" class="w-full">
+
+        <div class="offer-item">
+          {% if section.settings.offer1_image != blank %}
+          <div class="offer_img">
+            <img src="{{ section.settings.offer1_image | img_url:'master' }}">
+          </div>
+          {% endif %}
+          {% if section.settings.offer1_title != blank %}
+          <div class="offer_content">            
+            <h3>{{ section.settings.offer1_title }}</h3>
+            
+            {% if section.settings.offer1_text != blank %}
+            <div class="rte">
+              {{ section.settings.offer1_text }}
+            </div>
+            {% endif %}
+            {% if section.settings.offer1_btn_text != blank %}
+            <a href="{{ section.settings.offer1_btn_link }}">{{ section.settings.offer1_btn_text }}</a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="offer-item">
+          {% if section.settings.offer2_image != blank %}
+          <div class="offer_img">
+            <img src="{{ section.settings.offer2_image | img_url:'master' }}">
+          </div>
+          {% endif %}
+          {% if section.settings.offer2_title != blank %}
+          <div class="offer_content">            
+            <h3>{{ section.settings.offer2_title }}</h3>
+            
+            {% if section.settings.offer2_text != blank %}
+            <div class="rte">
+              {{ section.settings.offer2_text }}
+            </div>
+            {% endif %}
+            {% if section.settings.offer2_btn_text != blank %}
+            <a href="{{ section.settings.offer2_btn_link }}">{{ section.settings.offer2_btn_text }}</a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="offer-item">
+          {% if section.settings.offer3_image != blank %}
+          <div class="offer_img">
+            <img src="{{ section.settings.offer3_image | img_url:'master' }}">
+          </div>
+          {% endif %}
+          {% if section.settings.offer3_title != blank %}
+          <div class="offer_content">            
+            <h3>{{ section.settings.offer3_title }}</h3>
+            
+            {% if section.settings.offer3_text != blank %}
+            <div class="rte">
+              {{ section.settings.offer3_text }}
+            </div>
+            {% endif %}
+            {% if section.settings.offer3_btn_text != blank %}
+            <a href="{{ section.settings.offer3_btn_link }}">{{ section.settings.offer3_btn_text }}</a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+      </section>
+    </div>
+  </offers-drawer>
+{%- endif -%}
+
+<style>
+  .shopify-section--announcement-bar {
+    transform: inherit;
+  }
+  .announcement-bar__carousel .prose.heading {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+  }
+  .offer_drawer_opener {
+    margin: 0 !important;
+    text-decoration: underline;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  #offer-drawer.open {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    display: block;
+    background: #fff;
+    width: 400px;
+  }
+  .offer-drawer section.w-full {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+  }
+  .offer-item {
+    position: relative;
+  }
+  .offer-item .offer_content a:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .offer-item .offer_img {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 50%;
+  }
+  .offer-item .offer_img img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .offer-item .offer_content {
+    background: #F3F9F7;
+    padding: 16px 30px;
+    text-align: center;
+  }
+  .offer-item .offer_content h3 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+  .offer-item .offer_content .rte {
+    color: #55524C;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px; 
+    margin: 5px 0;
+  }
+  .offer-item .offer_content a {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.7px;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: 25%; /* 3.5px */
+    text-underline-position: from-font;
+    text-transform: uppercase;
+  }
+  .announcement-bar__carousel .prose.heading p {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+</style>
+
+
+{% schema %}
+{
+  "name": "t:sections.announcement_bar.name",
+  "class": "shopify-section--announcement-bar",
+  "tag": "aside",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "message",
+      "name": "t:sections.announcement_bar.blocks.message.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:sections.announcement_bar.blocks.message.text",
+          "default": "Announce something here"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:global.colors.scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "t:sections.announcement_bar.enable_sticky_bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:sections.announcement_bar.auto_rotate_between_messages",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cycle_speed",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "sec",
+      "label": "t:sections.announcement_bar.cycle_speed",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "desktop_font_size",
+      "min": 9,
+      "max": 15,
+      "unit": "px",
+      "label": "t:sections.announcement_bar.desktop_text_size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 9,
+      "max": 15,
+      "unit": "px",
+      "label": "t:sections.announcement_bar.mobile_text_size",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Offer Drawer"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme2",
+      "label": "t:global.colors.scheme",
+      "default": "scheme-17"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Offer 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "offer1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "offer1_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "offer1_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "offer1_btn_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "offer1_btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Offer 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "offer2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "offer2_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "offer2_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "offer2_btn_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "offer2_btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Offer 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "offer3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "offer3_title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "offer3_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "offer3_btn_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "offer3_btn_link",
+      "label": "Button Link"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,447 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collection-banner": {
+      "type": "collection-banner",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "image": "shopify://shop_images/How_to_Use_SR.png",
+        "image_size": "xs",
+        "allow_transparent_header": false,
+        "reveal": true,
+        "enable_parallax": true,
+        "show_image": false,
+        "show_collection_title": true,
+        "show_collection_description": true,
+        "show_breadcrumb": false,
+        "content_width": "xs",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "main": {
+      "type": "main-collection-custom",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "hide_product_information": false,
+        "products_per_page": 48,
+        "products_per_row_mobile": "2",
+        "products_size_desktop": "medium",
+        "show_grid_mode_selector": true,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "filter_layout": "sidebar",
+        "quick_links_menu": "",
+        "show_sort_by": true,
+        "show_filters": true,
+        "show_results_count": true,
+        "show_filter_group_name": false,
+        "show_filter_values_count": true,
+        "open_filters_by_default": true
+      }
+    },
+    "featured_product_e6Pmz8": {
+      "type": "featured-product",
+      "blocks": {
+        "title_r9ARG7": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h2"
+          }
+        },
+        "badges_aC6Qdb": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price_FhFDfn": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "rating_HG3cpN": {
+          "type": "rating",
+          "settings": {
+            "show_empty": true,
+            "rating_mode": "rating"
+          }
+        },
+        "separator_FyEdME": {
+          "type": "separator",
+          "settings": {}
+        },
+        "description_CTTDHH": {
+          "type": "description",
+          "settings": {
+            "collapse_content": false
+          }
+        },
+        "variant_picker_miDFja": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_style": "block",
+            "swatch_selector_style": "swatch",
+            "variant_image_options": "",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector_Lti8r7": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_xxnPkD": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "#035c68",
+            "atc_button_text_color": "#ffffff",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "pickup_availability_HTJttt": {
+          "type": "pickup_availability",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title_r9ARG7",
+        "badges_aC6Qdb",
+        "price_FhFDfn",
+        "rating_HG3cpN",
+        "separator_FyEdME",
+        "description_CTTDHH",
+        "variant_picker_miDFja",
+        "quantity_selector_Lti8r7",
+        "buy_buttons_xxnPkD",
+        "pickup_availability_HTJttt"
+      ],
+      "name": "t:sections.featured_product.presets.featured_product.name",
+      "settings": {
+        "color_scheme": "scheme-9b77339b-b7c3-4bad-b272-f2869b389d6e",
+        "product": "eco-friendly-bundle",
+        "separate_section_with_border": false,
+        "container_size": "lg",
+        "product_info_size": 45,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_bottom",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": false,
+        "max_image_zoom_level": 3,
+        "subheading": "",
+        "title": "",
+        "content": ""
+      }
+    },
+    "image_with_text_dx9bRQ": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_6K3jJa": {
+          "type": "heading",
+          "settings": {
+            "text": "<strong>Plan for Sustainable Future</strong>",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_QyzUVB": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Curious to learn more about how Puracy is helping to work towards a more sustainable future? Learn more about our <a href=\"https://puracy.com/pages/environmental-impact\"><span style=\"text-decoration:underline\">environmental impact plan</span></a>, where we go beyond refill pouches and do our best when it comes to biodegradable formulas, carbon offsetting, and more.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_6K3jJa",
+        "richtext_QyzUVB"
+      ],
+      "name": "t:sections.image_with_text.presets.image_with_text.name",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "separate_section_with_border": false,
+        "image": "shopify://shop_images/Plan_for_Sustainable_Future.png",
+        "mobile_image": "shopify://shop_images/Plan_for_Sustainable_Future.png",
+        "reveal_on_scroll": true,
+        "image_position": "end",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "images_with_text_scroll_zgtDMm": {
+      "type": "images-with-text-scroll",
+      "blocks": {
+        "image_with_text_3j4Qek": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/How_to_Use_SR.webp",
+            "subheading": "",
+            "title": "",
+            "content": "<p>Our refill pouches and packaging have now saved more than 200 tons of plastic from being put into production.</p><p>We choose packaging that is simple and easy to recycle at your local recycling center. Our bottles, pumps, sprayers, and caps are constructed from Polyethylene Terephthalate, also known more commonly as PET(E). Globally recognized as safe, non-toxic, strong, reusable, and 100% recyclable, this material is an inert plastic that does not leach harmful materials into its contents – plus it’s 100% BPA-free. In fact, it is the most widely recycled plastic in the world!</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "image_with_text_kH6NPH": {
+          "type": "image_with_text",
+          "settings": {
+            "subheading": "",
+            "title": "",
+            "content": "<p>We needed to offer our customers a reusable option for our waste-saving refill packs, and that’s where our Infinity Glass Bottles came in. With easy-to-use sprayer and pump, the Infinity Glass Bottle was designed to be used thousands of times. And since glass is infinitely recyclable, refilling them with your favorite Puracy products is a far more eco-conscious decision.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "image_with_text_qXPKHQ": {
+          "type": "image_with_text",
+          "settings": {
+            "subheading": "",
+            "title": "",
+            "content": "<p>Our eco-friendly pouches use 90% less plastic, water, and energy compared to traditional bottles.</p><p>We offer the largest biodegradable refill pouches in the industry and reusable BPA-free bottles on the market for many of your favorite refillable cleaning products in your favorite natural scents.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        }
+      },
+      "block_order": [
+        "image_with_text_3j4Qek",
+        "image_with_text_kH6NPH",
+        "image_with_text_qXPKHQ"
+      ],
+      "disabled": true,
+      "name": "t:sections.images_with_text_scroll.presets.images_with_text_scroll.name",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "image_position": "start",
+        "text_alignment": "center",
+        "heading_tag": "h3",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "timeline_HfXPeK": {
+      "type": "timeline",
+      "blocks": {
+        "item_rxaae6": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Recyclable_Packaging.png",
+            "mobile_image": "shopify://shop_images/Recyclable_Packaging.png",
+            "label": "Recyclable Packaging",
+            "subheading": "",
+            "title": "",
+            "content": "<p>Our refill pouches and packaging have now saved more than 200 tons of plastic from being put into production. </p><p>We choose packaging that is simple and easy to recycle at your local recycling center. Our bottles, pumps, sprayers, and caps are constructed from Polyethylene Terephthalate, also known more commonly as PET(E). Globally recognized as safe, non-toxic, strong, reusable, and 100% recyclable, this material is an inert plastic that does not leach harmful materials into its contents – plus it’s 100% BPA-free. In fact, it is the most widely recycled plastic in the world!</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        },
+        "item_4w8eXh": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Infinity_Glass_Bottles.png",
+            "mobile_image": "shopify://shop_images/Infinity_Glass_Bottles.png",
+            "label": "Infinity Glass Bottles",
+            "subheading": "",
+            "title": "",
+            "content": "<p>We needed to offer our customers a reusable option for our waste-saving refill packs, and that’s where our Infinity Glass Bottles came in. With easy-to-use sprayer and pump, the Infinity Glass Bottle was designed to be used thousands of times. And since glass is infinitely recyclable, refilling them with your favorite Puracy products is a far more eco-conscious decision.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        },
+        "item_LjxkpB": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Eco-friendly_Refills.png",
+            "mobile_image": "shopify://shop_images/Eco-friendly_Refills.png",
+            "label": "Eco-friendly Refills",
+            "subheading": "",
+            "title": "",
+            "content": "<p>Our eco-friendly pouches use 90% less plastic, water, and energy compared to traditional bottles.</p><p>We offer the largest biodegradable refill pouches in the industry and reusable BPA-free bottles on the market for many of your favorite refillable cleaning products in your favorite natural scents.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "item_rxaae6",
+        "item_4w8eXh",
+        "item_LjxkpB"
+      ],
+      "name": "t:sections.timeline.presets.timeline.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "item_color_scheme": "scheme-c7324759-b576-41d5-9757-f41f82df289e",
+        "separate_section_with_border": false
+      }
+    },
+    "rich_text_UMT8zx": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_JheB4f": {
+          "type": "heading",
+          "settings": {
+            "text": "<strong>Benefits of Subscribing</strong>",
+            "heading_tag": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_JheB4f"
+      ],
+      "name": "t:sections.rich_text.presets.rich_text.name",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "separate_section_with_border": false,
+        "content_width": "sm",
+        "text_position": "center",
+        "remove_vertical_spacing": false
+      }
+    },
+    "text_with_icons_PEP9p6": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_iXKnbG": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-percent",
+            "icon_width": 36,
+            "mobile_icon_width": 36,
+            "title": "<strong>Savings</strong>",
+            "content": "<p>Subscribing means you get 15% off the list price, plus FREE shipping.</p>"
+          }
+        },
+        "item_ErE9tC": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-calendar",
+            "icon_width": 36,
+            "mobile_icon_width": 36,
+            "title": "<strong>Simplicity</strong>",
+            "content": "<p>Never run low on home essentials. Plus, subscriptions are flexible, so you can adjust it at any time.</p>"
+          }
+        },
+        "item_BVenwU": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-earth",
+            "icon_width": 36,
+            "mobile_icon_width": 36,
+            "title": "<strong>Sustainability</strong>",
+            "content": "<p>Eco-friendly refill pouches use less plastic, water, and energy compared to plastic bottles.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_iXKnbG",
+        "item_ErE9tC",
+        "item_BVenwU"
+      ],
+      "name": "t:sections.text_with_icons.presets.text_with_icons.name",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "separate_section_with_border": false,
+        "stack_on_mobile": false,
+        "icon_color": "",
+        "text_color": "",
+        "text_alignment": "center"
+      }
+    },
+    "rich_text_Lt8Xm4": {
+      "type": "rich-text",
+      "blocks": {
+        "button_dLVHXY": {
+          "type": "button",
+          "settings": {
+            "style": "solid",
+            "text": "SUBSCRIBE NOW",
+            "url": "https://puracy.com/collections/subscriptions",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "button_dLVHXY"
+      ],
+      "name": "t:sections.rich_text.presets.rich_text.name",
+      "settings": {
+        "color_scheme": "scheme-20a9c231-dfc7-499f-a228-15e253d4045a",
+        "separate_section_with_border": false,
+        "content_width": "sm",
+        "text_position": "center",
+        "remove_vertical_spacing": false
+      }
+    },
+    "image_with_text_nMnXzM": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_R8rfWQ": {
+          "type": "subheading",
+          "settings": {
+            "text": ""
+          }
+        },
+        "heading_hPNDQ7": {
+          "type": "heading",
+          "settings": {
+            "text": "<strong>We're Only Happy If You're Happy</strong>",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_LhcpDp": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>We're confident you'll love our products, but if you're not satisfied, we'll provide a full refund. We may ask for feedback or a return to help improve our offerings.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_R8rfWQ",
+        "heading_hPNDQ7",
+        "richtext_LhcpDp"
+      ],
+      "settings": {
+        "color_scheme": "scheme-859769a5-9d5d-482f-99a5-29ccf953bb58",
+        "separate_section_with_border": false,
+        "image": "shopify://shop_images/badge_44626b41-f170-45d6-a8d2-b1e4255d91c4.png",
+        "mobile_image": "shopify://shop_images/badge_mobile_bbb82b36-be0b-418e-a7e5-8bdc6698a3c2.png",
+        "reveal_on_scroll": true,
+        "image_position": "end",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    }
+  },
+  "order": [
+    "collection-banner",
+    "main",
+    "featured_product_e6Pmz8",
+    "image_with_text_dx9bRQ",
+    "images_with_text_scroll_zgtDMm",
+    "timeline_HfXPeK",
+    "rich_text_UMT8zx",
+    "text_with_icons_PEP9p6",
+    "rich_text_Lt8Xm4",
+    "image_with_text_nMnXzM"
+  ]
+}

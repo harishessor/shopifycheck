@@ -1,0 +1,122 @@
+{% comment %}
+  Dynamic breadcrumb trail for:
+    • Home
+    • Collection → Product (filters out “_recharge” collections)
+    • Product (first real collection if multiple)
+    • Blog → Article
+    • Pages
+    • Standalone Collections
+{% endcomment %}
+
+<nav aria-label="Breadcrumb" class="breadcrumbs">
+  <div class="container container--lg">
+    <ol class="breadcrumbs__list">
+      <li class="breadcrumbs__item">
+        <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+      </li>
+
+      {% if collection and product %}
+        {%- comment -%} On a product page via collection URL {%- endcomment -%}
+        {% assign breadcrumbs_collection = nil %}
+
+        {% unless collection.handle contains '_recharge' %}
+          {%- comment -%} URL collection is “real” → use it {%- endcomment -%}
+          {% assign breadcrumbs_collection = collection %}
+        {% else %}
+          {%- comment -%} URL is a recharge collection → find first real one {%- endcomment -%}
+          {% for coll in product.collections %}
+            {% unless coll.handle contains '_recharge' %}
+              {% assign breadcrumbs_collection = coll %}
+              {% break %}
+            {% endunless %}
+          {% endfor %}
+        {% endunless %}
+
+        {% if breadcrumbs_collection %}
+          <li class="breadcrumbs__item">
+            <a href="{{ breadcrumbs_collection.url }}" class="breadcrumbs__link">
+              {{ breadcrumbs_collection.title }}
+            </a>
+          </li>
+        {% endif %}
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          {{ product.title }}
+        </li>
+
+      {% elsif product %}
+        {%- comment -%} On a standalone product page {%- endcomment -%}
+        {% assign breadcrumbs_collection = nil %}
+        {% for coll in product.collections %}
+          {% unless coll.handle contains '_recharge' %}
+            {% assign breadcrumbs_collection = coll %}
+            {% break %}
+          {% endunless %}
+        {% endfor %}
+
+        {% if breadcrumbs_collection %}
+          <li class="breadcrumbs__item">
+            <a href="{{ breadcrumbs_collection.url }}" class="breadcrumbs__link">
+              {{ breadcrumbs_collection.title }}
+            </a>
+          </li>
+        {% endif %}
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          {{ product.title }}
+        </li>
+
+      {% elsif blog and article %}
+        {%- comment -%} On a blog article {%- endcomment -%}
+        <li class="breadcrumbs__item">
+          <a href="{{ blog.url }}" class="breadcrumbs__link">{{ blog.title }}</a>
+        </li>
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          {{ article.title }}
+        </li>
+
+      {% elsif page %}
+        {%- comment -%} On a standalone page {%- endcomment -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          {{ page.title }}
+        </li>
+
+      {% elsif collection %}
+        {%- comment -%} On a collection listing {%- endcomment -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          {{ collection.title }}
+        </li>
+      {% endif %}
+    </ol>
+  </div>
+</nav>
+
+<style>
+.breadcrumbs {
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+.breadcrumbs__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  white-space: nowrap;
+  margin-right: 0;
+  margin-inline-start: 0;
+}
+.breadcrumbs__item + .breadcrumbs__item::before {
+  content: "›";
+  margin: 0 0.5em;
+  color: #aaa;
+}
+.breadcrumbs__link {
+  text-decoration: none;
+  color: rgb(var(--text-color));
+}
+.breadcrumbs__item--current {
+  color: rgb(var(--text-color));
+  font-weight: 600;
+  width: 100%;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
+}
+</style>

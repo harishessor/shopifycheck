@@ -1,0 +1,48 @@
+{
+  "WHITE-GRAY": [],
+  "GRAY-WHITE": [],
+  "ENHANCED": [],
+  "ALL": [
+    {
+      "selector": ".social-media__item"
+    },
+    {
+      "selector": ".footer__item-title.heading.heading--small"
+    },
+    {
+      "selector": ".product-item__label-list.label-list > span",
+      "css": ".product-item__label-list.label-list > span{background-color: #666 !important; color: white !important; border: 1px solid white;}"
+    },
+    {
+      "selector": ".link",
+      "css": "a.link{background-color: #666 !important; color: white !important; text-decoration:underline; text-decoration-color: currentColor;}"
+    },
+    {
+      "selector": ".link",
+      "css": "a.link:hover{text-decoration:underline; text-decoration-color: currentColor;}"
+    },
+    {
+      "selector": "a.header__logo-link >span",
+      "css": "a.header__logo-link {background-color: white !important;padding: 5px;}"
+    },
+    {
+      "selector": "#vsly-backdrop-container",
+      "css": "#vsly-backdrop-container div>a svg{background:black;}"
+    },
+    {
+      "selector": ".go3576808889.go3025663394",
+      "css": ".go3576808889.go3025663394{background-color: white !important; color: #666 !important;}"
+    },
+    {
+      "selector": ".announcement-bar button svg",
+      "css": ".announcement-bar button svg{background:white}"
+    },
+    {
+            "selector": ".button, .shopify-challenge__button, .shopify-payment-button__button--unbranded"
+    }
+  ],
+  "DESIGN": {
+    "IconOnly": false,
+    "PlacementContainer": ""
+  }
+}
